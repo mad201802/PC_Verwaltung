@@ -43,10 +43,18 @@ namespace PC_Verwaltung
             System.Environment.Exit(1);
         }
 
-        // Redirect to login() Method
+        // Redirect to login() Method, when the Button 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             login();
+        }
+
+        private void key_down(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                login();
+            }
         }
 
         /*
@@ -67,16 +75,19 @@ namespace PC_Verwaltung
             }
             else
             {
-                MessageBox.Show("Bitte überprüfen sie ihre Username-Eingabe!");
+                tb_notification.Foreground = Brushes.Red;
+                tb_notification.Text = "Username oder Passwort falsch";
             }
         }
 
-        private void key_down(object sender, KeyEventArgs e)
+        private void select_input(object sender, RoutedEventArgs e)
         {
-            if(e.Key == Key.Enter)
-            {
-                login();
-            }
+            tb_notification.Text = "";
+        }
+
+        private void focus_pw(object sender, RoutedEventArgs e)
+        {
+            tb_notification.Text = "";
         }
     }
 
