@@ -3,10 +3,51 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PC_Verwaltung"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Login" Height="500" Width="350" 
+        ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="None"
+        MouseDown="Window_MouseDown">
     <Grid>
-        
+        <Rectangle Height="500" Width="350" Stroke="Gray"/>
+        <Rectangle Height="280" VerticalAlignment="Top">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF2281D1"/>
+                    <GradientStop Color="#FF34268A" Offset="1"/>
+                    <GradientStop Color="#FF33288B" Offset="0.546"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <Label Content="PC Verwaltung" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,450" Foreground="White" FontWeight="Thin"/>
+        <Ellipse Width="120" Height="120" Fill="#e1e1e1" Stroke="White" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,270">
+            <Ellipse.Effect>
+                <DropShadowEffect Direction="0" ShadowDepth="3"/>
+            </Ellipse.Effect>
+        </Ellipse>
+        <materialDesign:PackIcon Kind="Computer" Width="100" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,275"/>
+        <Label Content="✖" VerticalAlignment="Top" HorizontalAlignment="right" Foreground="White" FontSize="20" MouseDown="click_close"/>
+
+        <Rectangle Width="280" Height="240" VerticalAlignment="Bottom" Margin="0,80" RadiusY="10" RadiusX="10" Fill="White">
+            <Rectangle.Effect>
+                <DropShadowEffect Direction="0" ShadowDepth="1" Color="#FFBBBBBB"/>
+            </Rectangle.Effect>
+        </Rectangle>
+
+        <Grid VerticalAlignment="Bottom" Margin="35,80" Height="240">
+            <Label Content="Bitte loggen sie sich ein:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" Foreground="Gray" FontSize="18"/>
+            <StackPanel VerticalAlignment="Center" Margin="15">
+                <TextBox Name="tb_username" Margin="0,10" materialDesign:HintAssist.Hint="Benutername" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="18"/>
+                <PasswordBox Name="pb_password" Margin="0,10" materialDesign:HintAssist.Hint="Passwort" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontSize="18"/>
+            </StackPanel>
+        </Grid>
+
+        <Button Width="150" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,65" Content="LOGIN" Click="Button_Click"/>
+        <TextBlock Text="Ich habe mein Passwort vergessen" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="30" Foreground="Gray" Cursor="Hand"/>
+        <Label Content="Version: 0.9" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+
     </Grid>
 </Window>
