@@ -18,7 +18,7 @@ namespace PC_Verwaltung
             ConnectionString = "SERVER=" + server + ";" + "DATABASE=" + database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
         }
 
-        private bool connect()
+        public bool connect()
         {
             try
             {
@@ -31,6 +31,28 @@ namespace PC_Verwaltung
             {
                 return false;
             }
+        }
+
+        public User getUser(string username)
+        {
+            MySqlConnection connection = new MySqlConnection(ConnectionString);
+            MySqlCommand command = connection.CreateCommand();
+
+
+            command.CommandText = "SELECT * FROM user WHERE username = " + username + "LIMIT 1 ";
+            MySqlDataReader Reader;
+            connection.Open();
+            command.Prepare();
+            Reader = command.ExecuteReader();
+            while (Reader.Read())
+            {
+                string row = "";
+                for (int i = 0; i < Reader.FieldCount; i++)
+                    row += Reader.GetValue(i).ToString() + ", ";
+                Console.WriteLine(row);
+            }
+            connection.Close();
+            return new User("p", "p");
         }
 
     }
