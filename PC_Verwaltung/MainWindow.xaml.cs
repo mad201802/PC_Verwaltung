@@ -102,7 +102,7 @@ namespace PC_Verwaltung
                 if(currentUser != null && currentUser.password == User.sha256(pb_password.Password))
                 {
                     this.Close();
-                    MessageBox.Show("Herzlich Wilkommen, Admin!");
+                    MessageBox.Show("Herzlich Wilkommen, " + currentUser.username + "!");
                 }
             }
             else

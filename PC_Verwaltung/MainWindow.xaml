@@ -9,7 +9,8 @@
         ResizeMode="NoResize" 
         WindowStartupLocation="CenterScreen" 
         WindowStyle="None"
-        MouseDown="Window_MouseDown">
+        MouseDown="Window_MouseDown"
+        Icon="favicon.ico">
     <Grid KeyDown="key_down">
         
         <Rectangle Height="500" Width="350" Stroke="Gray"/>
