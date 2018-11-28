@@ -12,6 +12,8 @@ namespace PC_Verwaltung
     {
 
         private string ConnectionString;
+        private MySqlConnection connection;
+        private MySqlCommand command;
 
         public Database(string server, string database, string uid, string password)
         {
@@ -22,8 +24,8 @@ namespace PC_Verwaltung
         {
             try
             {
-                MySqlConnection connection = new MySqlConnection(ConnectionString);
-                MySqlCommand command = connection.CreateCommand();
+                connection = new MySqlConnection(ConnectionString);
+                command = connection.CreateCommand();
                 connection.Open();
                 return true;
 
@@ -36,13 +38,8 @@ namespace PC_Verwaltung
 
         public User GetUser(string username)
         {
-            MySqlConnection connection = new MySqlConnection(ConnectionString);
-            MySqlCommand command = connection.CreateCommand();
-
-
             command.CommandText = "SELECT * FROM user WHERE username = '" + username + "' LIMIT 1;";
             MySqlDataReader Reader;
-            connection.Open();
             command.Prepare();
             Reader = command.ExecuteReader();
             if (Reader.HasRows)

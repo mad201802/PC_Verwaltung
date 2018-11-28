@@ -30,7 +30,7 @@ namespace PC_Verwaltung
             //Try to connect to Database
             if (!database.connect())
             {
-                //MessageBox.Show("Es konnte keine Verbindung zur Datnbank hergestellt werden", "Fehler beim Verbinden", MessageBoxButton.OK, MessageBoxImage.Error);
+                //MessageBox.Show("Es konnte keine Verbindung zur Datenbank hergestellt werden", "Fehler beim Verbinden", MessageBoxButton.OK, MessageBoxImage.Error);
                 //System.Environment.Exit(1);
             }
         }
@@ -86,10 +86,10 @@ namespace PC_Verwaltung
             string username = tb_username.Text.Trim();
 
             //Get the Database Information from username
-            User loginUser = database.getUser(username);
+            User loginUser = database.GetUser(username);
 
             //Prevent SQL Injection, not allowed characters, and a null return
-            if (loginUser != null && Regex.IsMatch(username, @"[a-zA-Z]+\w+") && database.getUser(username).username == username)
+            if (loginUser != null && Regex.IsMatch(username, @"[a-zA-Z]+\w+") && database.GetUser(username).username == username)
             {
                 if(loginUser.password == User.sha256(pb_password.Password))
                 {
