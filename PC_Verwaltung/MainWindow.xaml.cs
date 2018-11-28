@@ -27,12 +27,6 @@ namespace PC_Verwaltung
         public MainWindow()
         {
             InitializeComponent();
-            //Try to connect to Database
-            if (!database.connect())
-            {
-                //MessageBox.Show("Es konnte keine Verbindung zur Datenbank hergestellt werden", "Fehler beim Verbinden", MessageBoxButton.OK, MessageBoxImage.Error);
-                //System.Environment.Exit(1);
-            }
         }
 
         /*
@@ -84,6 +78,8 @@ namespace PC_Verwaltung
         {
             //The Username should just contain Numbers and Alphabetis Chars. The Max. Lengh is set to 20 characters.
             string username = tb_username.Text.Trim();
+
+            database.connect();
 
             //Get the Database Information from username
             User loginUser = database.GetUser(username);
