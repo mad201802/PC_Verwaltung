@@ -26,6 +26,10 @@ namespace PC_Verwaltung
             InitializeComponent();
         }
 
+        /*
+         * EVENT HANDLER
+         */
+
         //Drag and Drop the Login Window (Click everywhere)
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -39,8 +43,17 @@ namespace PC_Verwaltung
             System.Environment.Exit(1);
         }
 
-        // Validation of Username and Password
+        // Redirect to login() Method
         private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            login();
+        }
+
+        /*
+         * Methods
+         */
+
+        private void login()
         {
             //The Username should just contain Numbers and Alphabetis Chars. The Max. Lengh is set to 20 characters.
             string username = tb_username.Text.Trim();
@@ -55,6 +68,14 @@ namespace PC_Verwaltung
             else
             {
                 MessageBox.Show("Bitte überprüfen sie ihre Username-Eingabe!");
+            }
+        }
+
+        private void key_down(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                login();
             }
         }
     }
