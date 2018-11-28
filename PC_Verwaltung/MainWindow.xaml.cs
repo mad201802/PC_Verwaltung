@@ -22,7 +22,7 @@ namespace PC_Verwaltung
     public partial class MainWindow : Window
     {
 
-        public static Database database = new Database("localhost", "pc_verwaltung", "root", "");
+        public static Database database = new Database("192.168.43.204", "pc_verwaltung", "root", "");
 
         public MainWindow()
         {

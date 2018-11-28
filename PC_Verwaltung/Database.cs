@@ -34,28 +34,31 @@ namespace PC_Verwaltung
             }
         }
 
-        public User getUser(string username)
+        public User GetUser(string username)
         {
-            /*
             MySqlConnection connection = new MySqlConnection(ConnectionString);
             MySqlCommand command = connection.CreateCommand();
 
 
-            command.CommandText = "SELECT * FROM user WHERE username = " + username + "LIMIT 1 ";
+            command.CommandText = "SELECT * FROM user WHERE username = '" + username + "' LIMIT 1;";
             MySqlDataReader Reader;
             connection.Open();
             command.Prepare();
             Reader = command.ExecuteReader();
-            while (Reader.Read())
+            if (Reader.HasRows)
             {
-                string row = "";
-                for (int i = 0; i < Reader.FieldCount; i++)
-                    row += Reader.GetValue(i).ToString() + ", ";
-                Console.WriteLine(row);
+                Reader.Read();
+                User u = new User(Reader.GetString(1), "Default");
+                u.setHashPassword(Reader.GetString(2));
+                Console.WriteLine(u);
+                connection.Close();
+                return u;
             }
-            connection.Close();
-            */
-            return new User("admin", "admin");
+            else
+            {
+                connection.Close();
+                return null;
+            }
         }
 
     }

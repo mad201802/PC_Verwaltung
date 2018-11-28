@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PC_Verwaltung
+namespace TestApp
 {
-    class User
+    public class User
     {
         public string username { get; private set;}
         public string password { get; private set; }
