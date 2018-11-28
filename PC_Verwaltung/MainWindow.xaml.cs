@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -22,11 +23,26 @@ namespace PC_Verwaltung
     public partial class MainWindow : Window
     {
 
-        public static Database database = new Database("192.168.43.204", "pc_verwaltung", "PCV", "1234");
+        public static Database database = new Database("127.0.0.1", "pc_verwaltung", "PCV", "1234");
+        public static User currentUser;
 
         public MainWindow()
         {
             InitializeComponent();
+            if (!database.connect())
+            {
+                MessageBoxResult r = MessageBox.Show("Es konnte keine Verbindung zur Datenbank aufgebaut werden.\nWollen sie es erneut versuchen?", "Fehler beim Zugriff auf die Datenbank", MessageBoxButton.YesNo, MessageBoxImage.Error);
+                if(r == MessageBoxResult.Yes)
+                {
+                    System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+                    Application.Current.Shutdown();
+                }
+                else
+                {
+                    Application.Current.Shutdown();
+                }
+                
+            }
         }
 
         /*
@@ -76,18 +92,14 @@ namespace PC_Verwaltung
 
         private void login()
         {
-            //The Username should just contain Numbers and Alphabetis Chars. The Max. Lengh is set to 20 characters.
             string username = tb_username.Text.Trim();
 
-            database.connect();
-
-            //Get the Database Information from username
-            User loginUser = database.GetUser(username);
-
-            //Prevent SQL Injection, not allowed characters, and a null return
-            if (loginUser != null && Regex.IsMatch(username, @"[a-zA-Z]+\w+") && database.GetUser(username).username == username)
+            if (Regex.IsMatch(username, @"[a-zA-Z]+\w+") && database.GetUser(username).username == username)
             {
-                if(loginUser.password == User.sha256(pb_password.Password))
+
+                currentUser = database.GetUser(username);
+
+                if(currentUser != null && currentUser.password == User.sha256(pb_password.Password))
                 {
                     this.Close();
                     MessageBox.Show("Herzlich Wilkommen, Admin!");

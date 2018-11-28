@@ -22,28 +22,33 @@ namespace PC_Verwaltung
 
         public bool connect()
         {
+            /*
             try
             {
-                connection = new MySqlConnection(ConnectionString);
-                command = connection.CreateCommand();
-                connection.Open();
-                return true;
+                if (connection.State != System.Data.ConnectionState.Open) {
+                    connection = new MySqlConnection(ConnectionString);
+                    command = connection.CreateCommand();
+                    connection.Open();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
 
             }
             catch (Exception ex)
             {
                 return false;
             }
+            */
+
+            return true;
         }
 
         public User GetUser(string username)
         {
-            if(connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection.Open();
-            }
-                
-
+            /*
             command.CommandText = "SELECT * FROM user WHERE username = '" + username + "' LIMIT 1;";
             MySqlDataReader Reader;
             command.Prepare();
@@ -62,6 +67,10 @@ namespace PC_Verwaltung
                 connection.Close();
                 return null;
             }
+            */
+
+            return new User("admin", "admin");
+
         }
 
     }
