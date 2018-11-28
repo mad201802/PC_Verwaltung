@@ -38,6 +38,12 @@ namespace PC_Verwaltung
 
         public User GetUser(string username)
         {
+            if(connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+                
+
             command.CommandText = "SELECT * FROM user WHERE username = '" + username + "' LIMIT 1;";
             MySqlDataReader Reader;
             command.Prepare();
