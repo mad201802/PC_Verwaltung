@@ -21,9 +21,18 @@ namespace PC_Verwaltung
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        public static Database database = new Database("localhost", "pc_verwaltung", "root", "");
+
         public MainWindow()
         {
             InitializeComponent();
+            //Try to connect to Database
+            if (!database.connect())
+            {
+                //MessageBox.Show("Es konnte keine Verbindung zur Datnbank hergestellt werden", "Fehler beim Verbinden", MessageBoxButton.OK, MessageBoxImage.Error);
+                //System.Environment.Exit(1);
+            }
         }
 
         /*
@@ -57,29 +66,6 @@ namespace PC_Verwaltung
             }
         }
 
-        /*
-         * Methods
-         */
-
-        private void login()
-        {
-            //The Username should just contain Numbers and Alphabetis Chars. The Max. Lengh is set to 20 characters.
-            string username = tb_username.Text.Trim();
-
-            if (Regex.IsMatch(username, @"[a-zA-Z]+\w+") && username == "admin")
-            {
-                if (pb_password.Password == "admin")
-                {
-                    MessageBox.Show("Erfolgreich eingeloggt!");
-                }
-            }
-            else
-            {
-                tb_notification.Foreground = Brushes.Red;
-                tb_notification.Text = "Username oder Passwort falsch";
-            }
-        }
-
         private void select_input(object sender, RoutedEventArgs e)
         {
             tb_notification.Text = "";
@@ -89,6 +75,34 @@ namespace PC_Verwaltung
         {
             tb_notification.Text = "";
         }
+
+        /*
+         * Methods
+         */
+
+        private void login()
+        {
+            //The Username should just contain Numbers and Alphabetis Chars. The Max. Lengh is set to 20 characters.
+            string username = tb_username.Text.Trim();
+
+            User loginUser = database.getUser(username);
+
+            //Prevent SQL Injection or not allowed characters
+            if (loginUser != null && Regex.IsMatch(username, @"[a-zA-Z]+\w+") && database.getUser(username).username == username)
+            {
+                if(loginUser.password == User.sha256(pb_password.Password))
+                {
+                    this.Close();
+                    MessageBox.Show("Herzlich Wilkommen, Admin!");
+                }
+            }
+            else
+            {
+                tb_notification.Foreground = Brushes.Red;
+                tb_notification.Text = "Username oder Passwort falsch";
+            }
+        }
+
     }
 
 }

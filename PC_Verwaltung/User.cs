@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PC_Verwaltung
 {
-    class User
+    public class User
     {
         public string username { get; private set;}
         public string password { get; private set; }
@@ -17,7 +17,7 @@ namespace PC_Verwaltung
             this.password = sha256(password);
         }
 
-        private string sha256(string s)
+        public static string sha256(string s)
         {
             var crypt = new System.Security.Cryptography.SHA256Managed();
             var hash = new System.Text.StringBuilder();

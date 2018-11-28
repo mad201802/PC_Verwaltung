@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace PC_Verwaltung
 {
-    class Database
+    public class Database
     {
 
         private string ConnectionString;
@@ -24,6 +24,7 @@ namespace PC_Verwaltung
             {
                 MySqlConnection connection = new MySqlConnection(ConnectionString);
                 MySqlCommand command = connection.CreateCommand();
+                connection.Open();
                 return true;
 
             }
@@ -35,6 +36,7 @@ namespace PC_Verwaltung
 
         public User getUser(string username)
         {
+            /*
             MySqlConnection connection = new MySqlConnection(ConnectionString);
             MySqlCommand command = connection.CreateCommand();
 
@@ -52,7 +54,8 @@ namespace PC_Verwaltung
                 Console.WriteLine(row);
             }
             connection.Close();
-            return new User("p", "p");
+            */
+            return new User("admin", "admin");
         }
 
     }
