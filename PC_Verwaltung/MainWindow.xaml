@@ -11,6 +11,7 @@
         WindowStyle="None"
         MouseDown="Window_MouseDown">
     <Grid KeyDown="key_down">
+        
         <Rectangle Height="500" Width="350" Stroke="Gray"/>
         <Rectangle Height="280" VerticalAlignment="Top">
             <Rectangle.Fill>
@@ -43,9 +44,7 @@
                 <TextBox Name="tb_username" Margin="0,10" materialDesign:HintAssist.Hint="Benutername" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="18" SelectionChanged="select_input"/>
                 <PasswordBox Name="pb_password" Margin="0,10" materialDesign:HintAssist.Hint="Passwort" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontSize="18" GotFocus="focus_pw" />
             </StackPanel>
-
             <TextBlock Name="tb_notification" VerticalAlignment="Bottom" TextAlignment="Center" Foreground="Gray" FontSize="14" HorizontalAlignment="Left" Margin="15,0,0,30" Width="250" />
-
         </Grid>
 
         <Button Name="btn_login" Width="150" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,65" Content="LOGIN" Click="Button_Click"/>

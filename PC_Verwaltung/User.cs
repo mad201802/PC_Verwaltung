@@ -29,5 +29,10 @@ namespace PC_Verwaltung
             return hash.ToString();
         }
 
+        public void setHashPassword(string hash)
+        {
+            this.password = hash;
+        }
+
     }
 }

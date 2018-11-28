@@ -85,9 +85,10 @@ namespace PC_Verwaltung
             //The Username should just contain Numbers and Alphabetis Chars. The Max. Lengh is set to 20 characters.
             string username = tb_username.Text.Trim();
 
+            //Get the Database Information from username
             User loginUser = database.getUser(username);
 
-            //Prevent SQL Injection or not allowed characters
+            //Prevent SQL Injection, not allowed characters, and a null return
             if (loginUser != null && Regex.IsMatch(username, @"[a-zA-Z]+\w+") && database.getUser(username).username == username)
             {
                 if(loginUser.password == User.sha256(pb_password.Password))
