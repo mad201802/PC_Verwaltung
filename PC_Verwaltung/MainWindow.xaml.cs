@@ -23,7 +23,7 @@ namespace PC_Verwaltung
     public partial class MainWindow : Window
     {
 
-        public static Database database = new Database("127.0.0.1", "pc_verwaltung", "PCV", "1234");
+        public static Database database = new Database("192.168.43.204", "pc_verwaltung", "PCV", "1234");
         public static User currentUser;
 
         public MainWindow()
