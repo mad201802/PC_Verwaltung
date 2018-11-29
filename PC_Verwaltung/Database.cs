@@ -64,5 +64,17 @@ namespace PC_Verwaltung
             }
         }
 
+        public Boolean createNewUser(User currentUser, string username, string hashPassword)
+        {
+            //TODO
+            return false;
+        }
+
+        public Boolean changePassword(User currentUser, string oldPassword,string newPassword)
+        {
+            //TODO
+            return false;
+        }
+
     }
 }
