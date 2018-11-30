@@ -78,24 +78,44 @@ namespace PC_Verwaltung
             }
         }
 
-        public Boolean createNewUser(User currentUser, string username, string hashPassword)
+        public bool createNewUser(User currentUser, User newUser)
         {
             //TODO: Überprüfen ob user neue User hinzufügen darf.
-            if (GetUser(username) == null)
+            if (connection.State == System.Data.ConnectionState.Closed)
             {
-
-                if (connection.State == System.Data.ConnectionState.Closed)
-                {
-                    connection.Open();
-                }
-
-                command.CommandText = "INSERT INTO user(username, password)" +
-                "VALUES('" + username + "', '" + hashPassword + "');";
-
                 connection.Open();
-                command.ExecuteNonQuery();
+            }
 
-                connection.Close();
+            command.CommandText = "INSERT INTO user(username, password)" +
+            "VALUES('" + newUser.username + "', '" + newUser.password + "');";
+            command.Prepare();
+            command.ExecuteNonQuery();
+
+            connection.Close();
+            return true;
+        }
+
+        /// <summary>
+        /// Ändert das passwort für den aktuellen user
+        /// Überprüft nicht das alte passwort.
+        /// </summary>
+        /// <param name="currentUser"></param>
+        /// <param name="newPassword">Das neue gehashte Passwort</param>
+        /// <returns></returns>
+        public bool changePassword(User currentUser, string newPassword)
+        {
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            command.CommandText = "UPDATE user SET password = '" + newPassword + "' WHERE username = '" + currentUser.username + "';";
+            command.Prepare();
+            int statusCode = command.ExecuteNonQuery();
+
+            connection.Close();
+
+            if (statusCode == 1)
+            {
                 return true;
             }
             else
@@ -104,11 +124,14 @@ namespace PC_Verwaltung
             }
         }
 
-        public Boolean changePassword(User currentUser, string oldPassword,string newPassword)
+        public bool DoesUserExist(User user)
         {
-            //TODO
-            return false;
+            return GetUser(user.username) != null;
         }
 
+        public bool DoesUserExist(string username)
+        {
+            return GetUser(username) != null;
+        }
     }
 }
