@@ -74,17 +74,40 @@ namespace TestApp
 
             command.CommandText = "INSERT INTO user(username, password)" +
             "VALUES('" + newUser.username + "', '" + newUser.password + "');";
-
+            command.Prepare();
             command.ExecuteNonQuery();
 
             connection.Close();
             return true;           
         }
 
-        public bool changePassword(User currentUser, string oldPassword, string newPassword)
+        /// <summary>
+        /// Ändert das passwort für den aktuellen user
+        /// Überprüft nicht das alte passwort.
+        /// </summary>
+        /// <param name="currentUser"></param>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
+        public bool changePassword(User currentUser, string newPassword)
         {
-            //TODO
-            return false;
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            command.CommandText = "UPDATE user SET password = '" + newPassword + "' WHERE username = "+currentUser.username + ";";
+            command.Prepare();
+            int statusCode = command.ExecuteNonQuery();
+
+            connection.Close();
+
+            if(statusCode == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool DoesUserExist(User user)
