@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
@@ -36,30 +37,43 @@ namespace PC_Verwaltung
             }
         }
 
+        //TODO: Bitte erstellen :)
+        public bool userExists()
+        {
+            return false;
+        }
+
         public User GetUser(string username)
         {
-            if (connection.State == System.Data.ConnectionState.Closed)
+            try
             {
-                connection.Open();
-            }
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
 
+                command.CommandText = "SELECT * FROM user WHERE username = '" + username + "' LIMIT 1;";
+                MySqlDataReader Reader;
+                command.Prepare();
+                Reader = command.ExecuteReader();
 
-            command.CommandText = "SELECT * FROM user WHERE username = '" + username + "' LIMIT 1;";
-            MySqlDataReader Reader;
-            command.Prepare();
-            Reader = command.ExecuteReader();
-            if (Reader.HasRows)
-            {
-                Reader.Read();
-                User u = new User(Reader.GetString(1), "Default");
-                u.setHashPassword(Reader.GetString(2));
-                Console.WriteLine(u);
-                connection.Close();
-                return u;
+                if (Reader.HasRows)
+                {
+                    Reader.Read();
+                    User u = new User(Reader.GetString(1), "Default");
+                    u.setHashPassword(Reader.GetString(2));
+                    Console.WriteLine(u);
+                    connection.Close();
+                    return u;
+                }
+                else
+                {
+                    connection.Close();
+                    return null;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                connection.Close();
                 return null;
             }
         }

@@ -93,32 +93,6 @@ namespace PC_Verwaltung
             tb_notification.Text = "";
         }
 
-        /*
-         * Methods
-         */
-
-        private void login()
-        {
-            string username = tb_username.Text.Trim();
-
-            if (Regex.IsMatch(username, @"[a-zA-Z]+\w+") && database.GetUser(username).username == username)
-            {
-
-                currentUser = database.GetUser(username);
-
-                if(currentUser != null && currentUser.password == User.sha256(pb_password.Password))
-                {
-                    this.Close();
-                    MessageBox.Show("Herzlich Wilkommen, " + currentUser.username + "!");
-                }
-            }
-            else
-            {
-                tb_notification.Foreground = Brushes.Red;
-                tb_notification.Text = "Username oder Passwort falsch";
-            }
-        }
-
         private void click_eye(object sender, MouseButtonEventArgs e)
         {
             if (card_reveal_pw.Visibility == Visibility.Collapsed)
@@ -140,7 +114,7 @@ namespace PC_Verwaltung
 
         private void click_resetpassword(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Diese Funktion wurde noch nicht implementiert\nFalls sie ihr Passwort vergessen haben, kontaktieren sie bitte einen Entwickler!", "Noch nicht implementierte Funktion", MessageBoxButton.OK,MessageBoxImage.Information);
+            MessageBox.Show("Diese Funktion wurde noch nicht implementiert\nFalls sie ihr Passwort vergessen haben, kontaktieren sie bitte einen Entwickler!", "Noch nicht implementierte Funktion", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void click_registeruser(object sender, MouseButtonEventArgs e)
@@ -149,6 +123,27 @@ namespace PC_Verwaltung
             Registration r = new Registration();
             this.Close();
             r.Show();
+        }
+
+        /*
+         * Methods
+         */
+
+        private void login()
+        {
+            currentUser = database.GetUser(tb_username.Text.Trim());
+
+                if(currentUser != null && currentUser.password == User.sha256(pb_password.Password))
+                {
+                    this.Close();
+                    MessageBox.Show("Herzlich Wilkommen, " + currentUser.username + "!");
+                }
+                else
+                {
+                    tb_notification.Foreground = Brushes.Red;
+                    tb_notification.Text = "Username oder Passwort falsch";
+                }
+            
         }
     }
 

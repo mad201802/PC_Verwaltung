@@ -35,13 +35,17 @@
 
         <Grid VerticalAlignment="Bottom" Margin="35,40" Height="350">
             <TextBlock Text="Bitte füllen sie alle Felder aus:" Foreground="Gray" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="56,10,55.4,0"/>
-            <TextBox Name="tb_name" materialDesign:HintAssist.Hint="Vorname" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,33,0,0" Width="125"/>
-            <TextBox x:Name="tb_surname" materialDesign:HintAssist.Hint="Nachname" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,33,10.4,0" Width="125"/>
-            <TextBox x:Name="tb_username" materialDesign:HintAssist.Hint="Username" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,78,0,0" Width="260"/>
-            <TextBox x:Name="tb_email" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,123,0,0" Width="260"/>
-            <TextBox x:Name="tb_password" materialDesign:HintAssist.Hint="Passwort" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,168,0,0" Width="260"/>
-            <TextBox x:Name="tb_confirmpasword" materialDesign:HintAssist.Hint="Passwort wiederholen" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,213,0,0" Width="260"/>
-            <CheckBox Style="{StaticResource MaterialDesignCheckBox}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,48">
+            <TextBox Name="tb_name" materialDesign:HintAssist.Hint="Vorname" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25,33,0,0" Width="100"/>
+            <TextBox Name="tb_surname" materialDesign:HintAssist.Hint="Nachname" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,33,10.4,0" Width="125"/>
+            <TextBox Name="tb_username" materialDesign:HintAssist.Hint="Username" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="24,84,0,0" Width="246"/>
+            <materialDesign:PackIcon Kind="User" Margin="3,101,0,0" Foreground="Gray" RenderTransformOrigin="0.45,-1.1"/>
+            <TextBox Name="tb_email" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="24,124,0,0" Width="246"/>
+            <materialDesign:PackIcon Kind="Email" Margin="4,140,0,0" Foreground="Gray" RenderTransformOrigin="0.75,-0.5"/>
+            <PasswordBox Name="pb_password" materialDesign:HintAssist.Hint="Passwort" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25,172,0,0" Width="246"/>
+            <materialDesign:PackIcon Kind="Lock" Margin="4,185,0,0" Foreground="Gray"/>
+            <PasswordBox Name="pb_passwordconfirm" materialDesign:HintAssist.Hint="Passwort wiederholen" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25,216,0,0" Width="246"/>
+            <materialDesign:PackIcon Kind="Lock" Margin="4,230,0,0" Foreground="Gray" RenderTransformOrigin="0.4,-0.15"/>
+            <CheckBox Style="{StaticResource MaterialDesignCheckBox}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,43">
                 Ich stimme den Nutzungsbedingungen zu
             </CheckBox>
         </Grid>
