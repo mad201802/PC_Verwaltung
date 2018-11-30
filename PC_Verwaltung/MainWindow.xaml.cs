@@ -23,7 +23,7 @@ namespace PC_Verwaltung
     public partial class MainWindow : Window
     {
 
-        public static Database database = new Database("127.0.0.1", "pc_verwaltung", "root", "");
+        public static Database database = new Database("localhost", "pc_verwaltung", "root", "");
         public static User currentUser;
 
         public MainWindow()
@@ -141,6 +141,11 @@ namespace PC_Verwaltung
         private void click_resetpassword(object sender, MouseButtonEventArgs e)
         {
             MessageBox.Show("Diese Funktion wurde noch nicht implementiert\nFalls sie ihr Passwort vergessen haben, kontaktieren sie bitte einen Entwickler!", "Noch nicht implementierte Funktion", MessageBoxButton.OK,MessageBoxImage.Information);
+        }
+
+        private void click_registeruser(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Diese Funktion wurde noch nicht implementiert\nBitte kontaktieren sie den Entwickler", "Noch nicht implementierte Funktion", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 

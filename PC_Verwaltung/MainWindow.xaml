@@ -62,6 +62,7 @@
 
         <Button Name="btn_login" Width="150" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,65" Content="LOGIN" Click="Button_Click"/>
         <TextBlock Text="Ich habe mein Passwort vergessen" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="30" Foreground="Gray" Cursor="Hand" MouseDown="click_resetpassword"/>
+        <TextBlock Text="Registrieren" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Foreground="DarkSlateGray" Cursor="Hand" MouseDown="click_registeruser"/>
         <Label Content="Version: 0.9" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
 
     </Grid>
