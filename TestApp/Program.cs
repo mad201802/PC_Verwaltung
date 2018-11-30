@@ -19,7 +19,18 @@ namespace TestApp
             Database db = new Database(server, database, uid, password);
             db.connect();
 
-            db.GetUser("Test");
+            //db.GetUser("Test");
+            
+            if(!db.DoesUserExist("Herbert"))
+            {
+                Console.WriteLine("User does not exist");
+                Console.ReadKey();
+                User a = new User("Herbert", "1234a");
+
+                db.createNewUser(null, a);
+                Console.WriteLine("User created!");
+            }
+
             Console.ReadKey();
         }
     }

@@ -64,37 +64,37 @@ namespace TestApp
             }
         }
 
-        public Boolean createNewUser(User currentUser, string username, string hashPassword)
+        public bool createNewUser(User currentUser, User newUser)
         {
             //TODO: Überprüfen ob user neue User hinzufügen darf.
-            if (GetUser(username) == null)
+            if (connection.State == System.Data.ConnectionState.Closed)
             {
-
-                if (connection.State == System.Data.ConnectionState.Closed)
-                {
-                    connection.Open();
-                }
-
-                command.CommandText = "INSERT INTO user(username, password)" +
-                "VALUES('" + username + "', '" + hashPassword + "');";
-
                 connection.Open();
-                command.ExecuteNonQuery();
+            }
 
-                connection.Close();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            command.CommandText = "INSERT INTO user(username, password)" +
+            "VALUES('" + newUser.username + "', '" + newUser.password + "');";
+
+            command.ExecuteNonQuery();
+
+            connection.Close();
+            return true;           
         }
 
-        public Boolean changePassword(User currentUser, string oldPassword, string newPassword)
+        public bool changePassword(User currentUser, string oldPassword, string newPassword)
         {
             //TODO
             return false;
         }
 
+        public bool DoesUserExist(User user)
+        {
+            return GetUser(user.username) != null;
+        }
+
+        public bool DoesUserExist(string username)
+        {
+            return GetUser(username) != null;
+        }
     }
 }
