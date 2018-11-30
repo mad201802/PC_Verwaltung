@@ -37,12 +37,6 @@ namespace PC_Verwaltung
             }
         }
 
-        //TODO: Bitte erstellen :)
-        public bool userExists()
-        {
-            return false;
-        }
-
         public User GetUser(string username)
         {
             try
@@ -124,12 +118,12 @@ namespace PC_Verwaltung
             }
         }
 
-        public bool DoesUserExist(User user)
+        public bool UserExist(User user)
         {
             return GetUser(user.username) != null;
         }
 
-        public bool DoesUserExist(string username)
+        public bool UserExist(string username)
         {
             return GetUser(username) != null;
         }
