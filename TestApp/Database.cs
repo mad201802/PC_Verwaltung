@@ -86,7 +86,7 @@ namespace TestApp
         /// Überprüft nicht das alte passwort.
         /// </summary>
         /// <param name="currentUser"></param>
-        /// <param name="newPassword"></param>
+        /// <param name="newPassword">Das neue gehashte Passwort</param>
         /// <returns></returns>
         public bool changePassword(User currentUser, string newPassword)
         {
@@ -94,7 +94,7 @@ namespace TestApp
             {
                 connection.Open();
             }
-            command.CommandText = "UPDATE user SET password = '" + newPassword + "' WHERE username = "+currentUser.username + ";";
+            command.CommandText = "UPDATE user SET password = '" + newPassword + "' WHERE username = '"+currentUser.username + "';";
             command.Prepare();
             int statusCode = command.ExecuteNonQuery();
 
