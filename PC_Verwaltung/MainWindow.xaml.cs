@@ -29,6 +29,7 @@ namespace PC_Verwaltung
         public MainWindow()
         {
             InitializeComponent();
+            card_reveal_pw.Visibility = Visibility.Collapsed;
             if (!database.connect())
             {
                 MessageBoxResult r = MessageBox.Show("Es konnte keine Verbindung zur Datenbank aufgebaut werden.\nWollen sie es erneut versuchen?", "Fehler beim Zugriff auf die Datenbank", MessageBoxButton.YesNo, MessageBoxImage.Error);
@@ -52,8 +53,14 @@ namespace PC_Verwaltung
         //Drag and Drop the Login Window (Click everywhere)
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
-                this.DragMove();
+            try
+            {
+                if (e.ChangedButton == MouseButton.Left)
+                    this.DragMove();
+            }catch(Exception ex)
+            {
+
+            }
         }
 
         //When the User clicks on the Exit Button
@@ -112,6 +119,29 @@ namespace PC_Verwaltung
             }
         }
 
+        private void click_eye(object sender, MouseButtonEventArgs e)
+        {
+            if (card_reveal_pw.Visibility == Visibility.Collapsed)
+            {
+                card_reveal_pw.Visibility = Visibility.Visible;
+                packicon_show.Kind = MaterialDesignThemes.Wpf.PackIconKind.Eye;
+            }
+            else
+            {
+                card_reveal_pw.Visibility = Visibility.Collapsed;
+                packicon_show.Kind = MaterialDesignThemes.Wpf.PackIconKind.EyeOff;
+            }
+        }
+
+        private void on_password_change(object sender, RoutedEventArgs e)
+        {
+            card_reveal_pw_text.Text = pb_password.Password;
+        }
+
+        private void click_resetpassword(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Diese Funktion wurde noch nicht implementiert\nFalls sie ihr Passwort vergessen haben, kontaktieren sie bitte einen Entwickler!", "Noch nicht implementierte Funktion", MessageBoxButton.OK,MessageBoxImage.Information);
+        }
     }
 
 }
