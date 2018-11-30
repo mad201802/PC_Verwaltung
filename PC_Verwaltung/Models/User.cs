@@ -11,6 +11,12 @@ namespace PC_Verwaltung
         public string username { get; private set;}
         public string password { get; private set; }
 
+        public bool canEditUser { get; private set; }
+
+        public bool canEditRecords { get; private set; }
+
+        public bool isAdmin { get; private set; }
+
         public User(string username, string password)
         {
             this.username = username;
