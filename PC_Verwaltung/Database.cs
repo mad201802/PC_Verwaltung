@@ -66,8 +66,28 @@ namespace PC_Verwaltung
 
         public Boolean createNewUser(User currentUser, string username, string hashPassword)
         {
-            //TODO
-            return false;
+            //TODO: Überprüfen ob user neue User hinzufügen darf.
+            if (GetUser(username) == null)
+            {
+
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+
+                command.CommandText = "INSERT INTO user(username, password)" +
+                "VALUES('" + username + "', '" + hashPassword + "');";
+
+                connection.Open();
+                command.ExecuteNonQuery();
+
+                connection.Close();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public Boolean changePassword(User currentUser, string oldPassword,string newPassword)

@@ -12,6 +12,8 @@ namespace TestApp
     {
 
         private string ConnectionString;
+        private MySqlConnection connection;
+        private MySqlCommand command;
 
         public Database(string server, string database, string uid, string password)
         {
@@ -22,8 +24,9 @@ namespace TestApp
         {
             try
             {
-                MySqlConnection connection = new MySqlConnection(ConnectionString);
-                MySqlCommand command = connection.CreateCommand();
+                connection = new MySqlConnection(ConnectionString);
+                command = connection.CreateCommand();
+                connection.Open();
                 return true;
 
             }
@@ -35,20 +38,21 @@ namespace TestApp
 
         public User GetUser(string username)
         {
-            MySqlConnection connection = new MySqlConnection(ConnectionString);
-            MySqlCommand command = connection.CreateCommand();
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
 
 
             command.CommandText = "SELECT * FROM user WHERE username = '" + username + "' LIMIT 1;";
             MySqlDataReader Reader;
-            connection.Open();
             command.Prepare();
             Reader = command.ExecuteReader();
-            if(Reader.HasRows)
+            if (Reader.HasRows)
             {
                 Reader.Read();
-                User u = new User(Reader.GetValue(1).ToString(), "");
-                
+                User u = new User(Reader.GetString(1), "Default");
+                u.setHashPassword(Reader.GetString(2));
                 Console.WriteLine(u);
                 connection.Close();
                 return u;
@@ -60,5 +64,37 @@ namespace TestApp
             }
         }
 
+        public bool createNewUser(User currentUser, User newUser)
+        {
+            //TODO: Überprüfen ob user neue User hinzufügen darf.
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            command.CommandText = "INSERT INTO user(username, password)" +
+            "VALUES('" + newUser.username + "', '" + newUser.password + "');";
+
+            command.ExecuteNonQuery();
+
+            connection.Close();
+            return true;           
+        }
+
+        public bool changePassword(User currentUser, string oldPassword, string newPassword)
+        {
+            //TODO
+            return false;
+        }
+
+        public bool DoesUserExist(User user)
+        {
+            return GetUser(user.username) != null;
+        }
+
+        public bool DoesUserExist(string username)
+        {
+            return GetUser(username) != null;
+        }
     }
 }
