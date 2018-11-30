@@ -145,7 +145,10 @@ namespace PC_Verwaltung
 
         private void click_registeruser(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Diese Funktion wurde noch nicht implementiert\nBitte kontaktieren sie den Entwickler", "Noch nicht implementierte Funktion", MessageBoxButton.OK, MessageBoxImage.Information);
+            //MessageBox.Show("Diese Funktion wurde noch nicht implementiert\nBitte kontaktieren sie den Entwickler", "Noch nicht implementierte Funktion", MessageBoxButton.OK, MessageBoxImage.Information);
+            Registration r = new Registration();
+            this.Close();
+            r.Show();
         }
     }
 
