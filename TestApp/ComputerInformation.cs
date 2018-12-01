@@ -109,9 +109,9 @@ namespace TestApp
             {
                 motherboardManufacture = item["Manufacturer"].ToString();
                 motherboardModel = item["Product"].ToString();
-                Console.WriteLine(item["Status"]);
             }
         }
+
 
         /// <summary>
         /// Convertiert den Statuscode der architektur in ein Lesbaren string.
