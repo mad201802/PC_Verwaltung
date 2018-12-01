@@ -30,6 +30,7 @@ namespace PC_Verwaltung
         {
             InitializeComponent();
             card_reveal_pw.Visibility = Visibility.Collapsed;
+
             if (!database.connect())
             {
                 MessageBoxResult r = MessageBox.Show("Es konnte keine Verbindung zur Datenbank aufgebaut werden.\nWollen sie es erneut versuchen?", "Fehler beim Zugriff auf die Datenbank", MessageBoxButton.YesNo, MessageBoxImage.Error);
@@ -46,11 +47,9 @@ namespace PC_Verwaltung
             }
         }
 
-        /*
-         * EVENT HANDLER
-         */
-
-        //Drag and Drop the Login Window (Click everywhere)
+        #region Events
+        
+        //Drag and Drop des Anmeldefensters
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             try
@@ -63,18 +62,19 @@ namespace PC_Verwaltung
             }
         }
 
-        //When the User clicks on the Exit Button
+        //Wenn auf das X in der rechten, oberen Ecke gedrückt wird
         private void click_close(object sender, MouseButtonEventArgs e)
         {
             System.Environment.Exit(1);
         }
 
-        // Redirect to login() Method, when the Button 
+        //Wenn der Button zum Einloggen gedrückt wird
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             login();
         }
 
+        //Wenn Enter gedrückt wird, anstatt auf Login zu klicken
         private void key_down(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -83,16 +83,19 @@ namespace PC_Verwaltung
             }
         }
 
+        //Löschen der Anzeige-Textbox
         private void select_input(object sender, RoutedEventArgs e)
         {
             tb_notification.Text = "";
         }
 
+        //Löschen der Anzeige-Textbox
         private void focus_pw(object sender, RoutedEventArgs e)
         {
             tb_notification.Text = "";
         }
 
+        //Anzeigen des Passwortes in einer separaten Card
         private void click_eye(object sender, MouseButtonEventArgs e)
         {
             if (card_reveal_pw.Visibility == Visibility.Collapsed)
@@ -107,16 +110,19 @@ namespace PC_Verwaltung
             }
         }
 
+        //Updaten des Textes in der Password-Card
         private void on_password_change(object sender, RoutedEventArgs e)
         {
             card_reveal_pw_text.Text = pb_password.Password;
         }
 
+        //Was passiert, wenn man unten auf "Passwort vergessen" klickt
         private void click_resetpassword(object sender, MouseButtonEventArgs e)
         {
             MessageBox.Show("Diese Funktion wurde noch nicht implementiert\nFalls sie ihr Passwort vergessen haben, kontaktieren sie bitte einen Entwickler!", "Noch nicht implementierte Funktion", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        //Öffnen eines separaten Registrationsfensters
         private void click_registeruser(object sender, MouseButtonEventArgs e)
         {
             //MessageBox.Show("Diese Funktion wurde noch nicht implementiert\nBitte kontaktieren sie den Entwickler", "Noch nicht implementierte Funktion", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -125,10 +131,11 @@ namespace PC_Verwaltung
             r.Show();
         }
 
-        /*
-         * Methods
-         */
+        #endregion
 
+        #region Methoden
+
+        //Methode die die Eingaben überprüft und durch Database Klasse den User anmeldet
         private void login()
         {
             currentUser = database.GetUser(tb_username.Text.Trim());
@@ -145,6 +152,9 @@ namespace PC_Verwaltung
                 }
             
         }
+
+        #endregion
+
     }
 
 }
