@@ -22,9 +22,15 @@ namespace TestApp
             int CPUcount = 0;
             int CPUcores = 0;
             int CPUthreats = 0;
+
+            int CPUbaseClock = 0;
+            int CPUmaxSyncClock = 0;
+
             string CPUmanufacture = "";
             string CPUname = "";
+
             int L3cache = 0;
+
             string architecture = "";
             string bits = "";
 
@@ -32,7 +38,18 @@ namespace TestApp
             {
                 CPUcount = Convert.ToInt32( item["NumberOfProcessors"]);
             }
-
+            /*
+             * Gültige Keys:
+             * AddressWidth -> Befehlssatzlänge
+             * Architecture 
+             * Manufacturer
+             * Name -> Name der CPU
+             * NumberOfCores -> Physische Kerne
+             * NumberOfLogicalProcessors -> Logische Kerne
+             * L3CacheSize -> Level 3 Cache
+             * ExtClock -> Base clock in MHz
+             * MaxClockSpeed -> Maximaler Synchroner Takt in MHz
+            */
             foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_Processor").Get())
             {
                 bits = item["AddressWidth"].ToString();
@@ -42,6 +59,8 @@ namespace TestApp
                 CPUcores = Convert.ToInt32(item["NumberOfCores"]);
                 CPUthreats = Convert.ToInt32(item["NumberOfLogicalProcessors"]);
                 L3cache = Convert.ToInt32(item["L3CacheSize"]);
+                CPUbaseClock = Convert.ToInt32(item["ExtClock"]);
+                CPUmaxSyncClock = Convert.ToInt32(item["MaxClockSpeed"]);            
             }
         }
 

@@ -12,7 +12,7 @@ namespace TestApp
         static void Main(string[] args)
         {
             ComputerInformation CI = new ComputerInformation();
-            
+            CI.GetCPUDetails();
 
 
             #region database testing
