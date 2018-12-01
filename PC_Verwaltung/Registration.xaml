@@ -34,7 +34,7 @@
         </Rectangle>
 
         <Grid VerticalAlignment="Bottom" Margin="35,40" Height="350">
-            <TextBlock Text="Bitte füllen sie alle Felder aus:" Foreground="Gray" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="56,10,55.4,0"/>
+            <TextBlock Text="Bitte fülle alle Felder aus:" Foreground="Gray" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="56,10,55.4,0"/>
             <TextBox Name="tb_name" materialDesign:HintAssist.Hint="Vorname" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25,33,0,0" Width="100"/>
             <TextBox Name="tb_surname" materialDesign:HintAssist.Hint="Nachname" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,33,10.4,0" Width="125"/>
             <TextBox Name="tb_username" materialDesign:HintAssist.Hint="Username" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="24,84,0,0" Width="246"/>
@@ -45,7 +45,8 @@
             <materialDesign:PackIcon Kind="Lock" Margin="4,185,0,0" Foreground="Gray"/>
             <PasswordBox Name="pb_passwordconfirm" materialDesign:HintAssist.Hint="Passwort wiederholen" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25,216,0,0" Width="246"/>
             <materialDesign:PackIcon Kind="Lock" Margin="4,230,0,0" Foreground="Gray" RenderTransformOrigin="0.4,-0.15"/>
-            <CheckBox Style="{StaticResource MaterialDesignCheckBox}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,43">
+            <TextBlock Name="tb_notification" VerticalAlignment="Bottom" TextAlignment="Center" Foreground="Gray" FontSize="14" HorizontalAlignment="Left" Margin="4,0,0,53" Width="270" />
+            <CheckBox Style="{StaticResource MaterialDesignCheckBox}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="Gray" Margin="10,0,0,31">
                 Ich stimme den Nutzungsbedingungen zu
             </CheckBox>
         </Grid>

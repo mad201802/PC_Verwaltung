@@ -21,6 +21,7 @@ namespace PC_Verwaltung
             ConnectionString = "SERVER=" + server + ";" + "DATABASE=" + database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
         }
 
+        //Verbinden zur Datebank, gibt boolean zurück
         public bool connect()
         {
             try
@@ -37,6 +38,7 @@ namespace PC_Verwaltung
             }
         }
 
+        //Rückgabewert: User und Passwort aus der Datenbank 
         public User GetUser(string username)
         {
             try
@@ -72,6 +74,7 @@ namespace PC_Verwaltung
             }
         }
 
+        //Erstellen eines neues Users in der Datenbank
         public bool createNewUser(User currentUser, User newUser)
         {
             //TODO: Überprüfen ob user neue User hinzufügen darf.
@@ -118,11 +121,13 @@ namespace PC_Verwaltung
             }
         }
 
+        //Checkt ob der User schon in der Datenbank ist (User-Obj. param)
         public bool UserExist(User user)
         {
             return GetUser(user.username) != null;
         }
 
+        //Checkt ob der User schon in der Datenbank ist (Username param)
         public bool UserExist(string username)
         {
             return GetUser(username) != null;
