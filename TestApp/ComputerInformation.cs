@@ -17,7 +17,7 @@ namespace TestApp
         ///     Modelname
         ///     Größe des Level3 Caches
         /// </summary>
-        public void GetCpuDetails()
+        public void GetCPUDetails()
         {
             int CPUcount = 0;
             int CPUcores = 0;
@@ -37,10 +37,8 @@ namespace TestApp
             {
                 bits = item["AddressWidth"].ToString();
                 architecture = GetArchitectureDetail(int.Parse(item["Architecture"].ToString()));
-
                 CPUmanufacture = item["Manufacturer"].ToString().Replace("Genuine","");
                 CPUname = item["Name"].ToString();
-
                 CPUcores = Convert.ToInt32(item["NumberOfCores"]);
                 CPUthreats = Convert.ToInt32(item["NumberOfLogicalProcessors"]);
                 L3cache = Convert.ToInt32(item["L3CacheSize"]);
@@ -96,7 +94,23 @@ namespace TestApp
             }
             ramDimSpeeds = l_ramDimSpeeds.ToArray();
             ramDimSizes = l_ramDimSizes.ToArray();
+        }
 
+        /// <summary>
+        /// Sammelt:
+        ///     Hersteller
+        ///     Modelbezeichnung
+        /// </summary>
+        public void GetMotherboardDetails()
+        {
+            string motherboardManufacture = "";
+            string motherboardModel = "";
+            foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_BaseBoard").Get())
+            {
+                motherboardManufacture = item["Manufacturer"].ToString();
+                motherboardModel = item["Product"].ToString();
+                Console.WriteLine(item["Status"]);
+            }
         }
 
         /// <summary>
