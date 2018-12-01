@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +11,12 @@ namespace TestApp
     {
         static void Main(string[] args)
         {
+            ComputerInformation CI = new ComputerInformation();
+            CI.GetCPUDetails();
+
+
+            #region database testing
+            /*
             //config
             string server = "127.0.0.1";
             string database = "pc_verwaltung";
@@ -36,8 +43,12 @@ namespace TestApp
                 User cache = new User("cache", "New Password");
                 db.changePassword(a, cache.password);
             }
+            */
+            #endregion
 
             Console.ReadKey();
+
         }
     }
 }
+

@@ -8,20 +8,15 @@ namespace PC_Verwaltung
 {
     public class User
     {
-        public string name { get; private set;}
-        public string surname { get; private set; }
-        public string email { get; private set; }
-        public string username { get; private set; }
+        public string username { get; private set;}
+
         public string password { get; private set; }
 
-        public User(string name, string surname, string email, string username, string password)
-        {
-            this.name = name;
-            this.surname = surname;
-            this.email = email;
-            this.username = username;
-            this.password = sha256(password);
-        }
+        public bool canEditUser { get; private set; }
+
+        public bool canEditRecords { get; private set; }
+
+        public bool isAdmin { get; private set; }
 
         public User(string username, string password)
         {
