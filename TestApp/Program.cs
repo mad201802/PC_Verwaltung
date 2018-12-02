@@ -9,6 +9,12 @@ namespace TestApp
 {
     class Program
     {
+        #region README
+        /* 
+        * Diese Solution ist nur zum testen von (zukünftigen) Funktionen und ist bei der Bewertung weitgehend zu ignorieren!
+        */
+        #endregion
+
         static void Main(string[] args)
         {
             ComputerInformation CI = new ComputerInformation();

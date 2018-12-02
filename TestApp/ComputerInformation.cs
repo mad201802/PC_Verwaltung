@@ -8,14 +8,18 @@ namespace TestApp
 {
     class ComputerInformation
     {
-        /// <summary>
+        /// <summary> [!Zukünftige Funktion!]
         /// Sammelt:
-        ///     Anzahl der CPUs
-        ///     Anzahl der physichen Kerne
-        ///     Anzahl der logischen Kerne
-        ///     Hersteller
-        ///     Modelname
-        ///     Größe des Level3 Caches
+        ///     Anzahl der CPUs (normale Desktops/Laptops = 1)
+        ///     Anzahl der physichen Kerne (1-18)
+        ///     Anzahl der logischen Kerne (1-36)
+        ///     Hersteller (Intel, AMD, ARM)
+        ///     Modelname (Bsp.: Intel Core i7-3770K @3,50GHz)
+        ///     Größe des Level3 Caches (Bsp.: 8MB)
+        ///     Basistakt (Bsp.: 100MHz)
+        ///     Maximaler Synchroner Takt (Bsp.: 3501MHz)
+        ///     Architektur (x86, x64)
+        ///     Befehlslänge (32, 64 Bit)
         /// </summary>
         public void GetCPUDetails()
         {
@@ -38,18 +42,7 @@ namespace TestApp
             {
                 CPUcount = Convert.ToInt32( item["NumberOfProcessors"]);
             }
-            /*
-             * Gültige Keys:
-             * AddressWidth -> Befehlssatzlänge
-             * Architecture 
-             * Manufacturer
-             * Name -> Name der CPU
-             * NumberOfCores -> Physische Kerne
-             * NumberOfLogicalProcessors -> Logische Kerne
-             * L3CacheSize -> Level 3 Cache
-             * ExtClock -> Base clock in MHz
-             * MaxClockSpeed -> Maximaler Synchroner Takt in MHz
-            */
+
             foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_Processor").Get())
             {
                 bits = item["AddressWidth"].ToString();
@@ -64,7 +57,7 @@ namespace TestApp
             }
         }
 
-        /// <summary>
+        /// <summary> [!Zukünftige Funktion!]
         /// Sammelt:
         ///     Hersteller
         ///     Modelbezeichnung
@@ -86,9 +79,9 @@ namespace TestApp
             }
         }
 
-        /// <summary>
+        /// <summary> [!Zukünftige Funktion!]
         /// Sammelt: 
-        ///     Gesammt Größe des RAMs
+        ///     Gesammt Größe des RAMs in KB und GB
         ///     Größe und Taktraten der einzelnen DIMs
         /// </summary>
         public void GetMemoryDetails()
@@ -115,7 +108,7 @@ namespace TestApp
             ramDimSizes = l_ramDimSizes.ToArray();
         }
 
-        /// <summary>
+        /// <summary> [!Zukünftige Funktion!]
         /// Sammelt:
         ///     Hersteller
         ///     Modelbezeichnung
@@ -132,7 +125,7 @@ namespace TestApp
         }
 
 
-        /// <summary>
+        /// <summary> [!Zukünftige Funktion!]
         /// Convertiert den Statuscode der architektur in ein Lesbaren string.
         /// </summary>
         /// <param name="architectureNumber"></param>
