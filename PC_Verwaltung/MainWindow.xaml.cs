@@ -30,7 +30,7 @@ namespace PC_Verwaltung
         {
             InitializeComponent();
             card_reveal_pw.Visibility = Visibility.Collapsed;
-
+            
             if (!database.connect())
             {
                 MessageBoxResult r = MessageBox.Show("Es konnte keine Verbindung zur Datenbank aufgebaut werden.\nWollen sie es erneut versuchen?", "Fehler beim Zugriff auf die Datenbank", MessageBoxButton.YesNo, MessageBoxImage.Error);
@@ -45,6 +45,8 @@ namespace PC_Verwaltung
                 }
                 
             }
+            Loaded += (sender, e) =>
+            MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
 
         #region Events
