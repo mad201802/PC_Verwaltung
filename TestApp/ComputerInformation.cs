@@ -8,6 +8,34 @@ namespace TestApp
 {
     class ComputerInformation
     {
+        public int CPUcount { get; private set; } = 0;
+        public int CPUcores { get; private set; } = 0;
+        public int CPUthreads { get; private set; } = 0;
+        public int CPUbaseClock { get; private set; } = 0;
+        public int CPUmaxSyncClock { get; private set; } = 0;
+        public string CPUmanufacture { get; private set; } = "";
+        public string CPUname { get; private set; } = "";
+        public int CPUl3cache { get; private set; } = 0;
+        public string CPUarchitecture { get; private set; } = "";
+        public string CPUbits { get; private set; } = "";
+        public string GPUname { get; private set; } = "";
+        public string GPUmanufacture { get; private set; } = "";
+        public int GPUram { get; private set; } = 0; // in GB
+        public int ramSizeInGB { get; private set; } = 0;
+        public double ramSizeInKB { get; private set; } = 0;
+        public int[] ramDimSpeeds { get; private set; }
+        public long[] ramDimSizes { get; private set; }
+        public string motherboardManufacture { get; private set; } = "";
+        public string motherboardModel { get; private set; } = "";
+
+        public void gatherInformation()
+        {
+            GetCPUDetails();
+            GetGPUDetails();
+            GetMemoryDetails();
+            GetMotherboardDetails();
+        }
+
         /// <summary> [!Zukünftige Funktion!]
         /// Sammelt:
         ///     Anzahl der CPUs (normale Desktops/Laptops = 1)
@@ -23,21 +51,6 @@ namespace TestApp
         /// </summary>
         public void GetCPUDetails()
         {
-            int CPUcount = 0;
-            int CPUcores = 0;
-            int CPUthreats = 0;
-
-            int CPUbaseClock = 0;
-            int CPUmaxSyncClock = 0;
-
-            string CPUmanufacture = "";
-            string CPUname = "";
-
-            int L3cache = 0;
-
-            string architecture = "";
-            string bits = "";
-
             foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_ComputerSystem").Get())
             {
                 CPUcount = Convert.ToInt32( item["NumberOfProcessors"]);
@@ -45,13 +58,13 @@ namespace TestApp
 
             foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_Processor").Get())
             {
-                bits = item["AddressWidth"].ToString();
-                architecture = GetArchitectureDetail(int.Parse(item["Architecture"].ToString()));
+                CPUbits = item["AddressWidth"].ToString();
+                CPUarchitecture = GetArchitectureDetail(int.Parse(item["Architecture"].ToString()));
                 CPUmanufacture = item["Manufacturer"].ToString().Replace("Genuine","");
                 CPUname = item["Name"].ToString();
                 CPUcores = Convert.ToInt32(item["NumberOfCores"]);
-                CPUthreats = Convert.ToInt32(item["NumberOfLogicalProcessors"]);
-                L3cache = Convert.ToInt32(item["L3CacheSize"]);
+                CPUthreads = Convert.ToInt32(item["NumberOfLogicalProcessors"]);
+                CPUl3cache = Convert.ToInt32(item["L3CacheSize"]);
                 CPUbaseClock = Convert.ToInt32(item["ExtClock"]);
                 CPUmaxSyncClock = Convert.ToInt32(item["MaxClockSpeed"]);            
             }
@@ -65,10 +78,6 @@ namespace TestApp
         /// </summary>
         public void GetGPUDetails()
         {
-            string GPUname = "";
-            string GPUmanufacture = "";
-            int GPUram = 0; // in GB
-
             foreach(var item in new System.Management.ManagementObjectSearcher("Select * from Win32_VideoController ").Get())
             {
                 
@@ -86,11 +95,6 @@ namespace TestApp
         /// </summary>
         public void GetMemoryDetails()
         {
-            int ramSizeInGB = 0;
-            double ramSizeInKB = 0;
-            int[] ramDimSpeeds;
-            long[] ramDimSizes;
-
             List <long> l_ramDimSizes = new List<long>();
             List <int> l_ramDimSpeeds = new List<int>();
 
@@ -115,8 +119,6 @@ namespace TestApp
         /// </summary>
         public void GetMotherboardDetails()
         {
-            string motherboardManufacture = "";
-            string motherboardModel = "";
             foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_BaseBoard").Get())
             {
                 motherboardManufacture = item["Manufacturer"].ToString();
