@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,30 +16,43 @@ namespace PC_Verwaltung
         private string ConnectionString;
         private MySqlConnection connection;
         private MySqlCommand command;
+        private string server;
 
         public Database(string server, string database, string uid, string password)
         {
+            this.server = server;
             ConnectionString = "SERVER=" + server + ";" + "DATABASE=" + database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
         }
 
         /// <summary>
         /// Stellt verbindung zur Datenbank her.
         /// </summary>
-        /// <returns>true wenn und nur wenn die Verbindung Erfolgreich hergestellt wurde andernfalls false</returns>
-        public bool connect()
+        /// <returns>1 wenn die datenbank verbunden wurde
+        /// 0 wenn die datenbank nicht verbunden wurde aber der server antwortet
+        /// -1 wenn der server nicht antwortet</returns>
+        public int connect()
         {
-            try
+            if(PingHost(server, 3306))
             {
-                connection = new MySqlConnection(ConnectionString);
-                command = connection.CreateCommand();
-                connection.Open();
-                return true;
+                try
+                {
+                    connection = new MySqlConnection(ConnectionString);
+                    command = connection.CreateCommand();
+                    connection.Open();
+                    return 1;
 
+                }
+                catch (Exception ex)
+                {
+                    return 0;
+                }
             }
-            catch (Exception ex)
+            else
             {
-                return false;
+                MessageBox.Show("Fehler, Der Datenbank server antwortet nicht.","Server nicht erreicht!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return -1;
             }
+            
         }
         /// <summary>
         /// Sucht nach einem User in der Datenbank mit dem angegeben Usernamen.
@@ -153,6 +167,20 @@ namespace PC_Verwaltung
         public bool UserExist(string username)
         {
             return GetUser(username) != null;
+        }
+
+
+        public static bool PingHost(string hostUri, int portNumber)
+        {
+            try
+            {
+                using (var client = new TcpClient(hostUri, portNumber))
+                    return true;
+            }
+            catch (SocketException ex)
+            {
+                return false;
+            }
         }
     }
 }
