@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace PC_Verwaltung
 {
@@ -19,6 +21,14 @@ namespace PC_Verwaltung
     /// </summary>
     public partial class Registration : Window
     {
+        /*
+        public string name { get; private set; }
+        public string surname { get; private set; }
+        public string email { get; private set; }
+        public string password { get; private set; }
+        public string passwordconfirm { get; private set; }
+        */
+
         public Registration()
         {
             InitializeComponent();
@@ -41,7 +51,12 @@ namespace PC_Verwaltung
 
         private void Btn_register_Click(object sender, RoutedEventArgs e)
         {
+            register();
+        }
 
+        private void register()
+        {
+            
         }
     }
 }
