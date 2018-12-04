@@ -27,10 +27,10 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Exportiere Daten aus Tabelle pc_verwaltung.user: ~2 rows (ungefähr)
+-- Exportiere Daten aus Tabelle pc_verwaltung.user: ~1 rows (ungefähr)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `password`, `created_at`, `updated_at`) VALUES
-	(1, 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', '2018-11-28 11:06:18', '2018-11-28 11:06:18');
+	(NULL, 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', NULL, NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
