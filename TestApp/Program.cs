@@ -19,24 +19,30 @@ namespace TestApp
         {
             ComputerInformation CI = new ComputerInformation();
             CI.gatherInformation();
-
-            Console.WriteLine("CPU Architektur: " + CI.CPUarchitecture);
-            Console.WriteLine("CPU Base Clock: " + CI.CPUbaseClock);
-            Console.WriteLine("CPU Bits: " + CI.CPUbits);
-            Console.WriteLine("CPU Kerne: " + CI.CPUcores);
+            Console.WriteLine("CPU:");
             Console.WriteLine("CPU Anzahl: " + CI.CPUcount);
-            Console.WriteLine("CPU Level 3 Cache: " + CI.CPUl3cache);
-            Console.WriteLine("CPU Hersteller: " + CI.CPUmanufacture);
-            Console.WriteLine("CPU Max Clock: " + CI.CPUmaxSyncClock);
             Console.WriteLine("CPU Name: " + CI.CPUname);
-            Console.WriteLine("CPU Threats: " + CI.CPUthreats);
+            Console.WriteLine("CPU Kerne: " + CI.CPUcores);
+            Console.WriteLine("CPU Threads: " + CI.CPUthreads);
+            Console.WriteLine("CPU Architektur: " + CI.CPUarchitecture);
+            Console.WriteLine("CPU Base Clock: " + CI.CPUbaseClock + " MHz");
+            Console.WriteLine("CPU Max Clock: " + CI.CPUmaxSyncClock + " MHz");
+            Console.WriteLine("CPU Bits: " + CI.CPUbits);
+            Console.WriteLine("CPU Level 3 Cache: " + CI.CPUl3cache);
+            
+            Console.WriteLine("CPU Hersteller: " + CI.CPUmanufacture);
+            Console.WriteLine("----\nGPU:");
             Console.WriteLine("GPU Hersteller: " + CI.GPUmanufacture);
             Console.WriteLine("GPU Name: " + CI.GPUname);
-            Console.WriteLine("GPU RAM: " + CI.GPUram);
+            Console.WriteLine("GPU RAM: " + CI.GPUram + " GB");
+
+            Console.WriteLine("----\nMobo:");
             Console.WriteLine("Mobo Hersteller: " + CI.motherboardManufacture);
             Console.WriteLine("Mobo Modell: " + CI.motherboardModel);
+
+            Console.WriteLine("----\nRAM:");
             Console.WriteLine("RAM Größe in GB: " + CI.ramSizeInGB);
-            Console.WriteLine("RAM Takt: " + CI.ramDimSpeeds[0]);
+            Console.WriteLine("RAM Takt: " + CI.ramDimSpeeds[0] + " MHz");
             
 
 

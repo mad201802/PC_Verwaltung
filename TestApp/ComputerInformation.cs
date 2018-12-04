@@ -10,7 +10,7 @@ namespace TestApp
     {
         public int CPUcount { get; private set; } = 0;
         public int CPUcores { get; private set; } = 0;
-        public int CPUthreats { get; private set; } = 0;
+        public int CPUthreads { get; private set; } = 0;
         public int CPUbaseClock { get; private set; } = 0;
         public int CPUmaxSyncClock { get; private set; } = 0;
         public string CPUmanufacture { get; private set; } = "";
@@ -63,7 +63,7 @@ namespace TestApp
                 CPUmanufacture = item["Manufacturer"].ToString().Replace("Genuine","");
                 CPUname = item["Name"].ToString();
                 CPUcores = Convert.ToInt32(item["NumberOfCores"]);
-                CPUthreats = Convert.ToInt32(item["NumberOfLogicalProcessors"]);
+                CPUthreads = Convert.ToInt32(item["NumberOfLogicalProcessors"]);
                 CPUl3cache = Convert.ToInt32(item["L3CacheSize"]);
                 CPUbaseClock = Convert.ToInt32(item["ExtClock"]);
                 CPUmaxSyncClock = Convert.ToInt32(item["MaxClockSpeed"]);            
