@@ -49,7 +49,6 @@ namespace PC_Verwaltung
             }
             else
             {
-                MessageBox.Show("Fehler, Der Datenbank server antwortet nicht.","Server nicht erreicht!", MessageBoxButton.OK, MessageBoxImage.Error);
                 return -1;
             }
             
