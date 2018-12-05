@@ -15,14 +15,14 @@ namespace TestApp
     public class Database
     {
 
-        private string ConnectionString;
+        private string ConnectionString, ConnectionStringWithoutDatabase;
         private MySqlConnection connection;
         private MySqlCommand command;
         private string server;
-
         public Database(string server, string database, string uid, string password)
         {
             this.server = server;
+            ConnectionStringWithoutDatabase = "SERVER=" + server + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
             ConnectionString = "SERVER=" + server + ";" + "DATABASE=" + database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
         }
 
@@ -38,9 +38,7 @@ namespace TestApp
             {
                 try
                 {
-                    connection = new MySqlConnection(ConnectionString);
-                    command = connection.CreateCommand();
-                    connection.Open();
+                    createConnection(ConnectionString);
                     return 1;
 
                 }
@@ -170,7 +168,12 @@ namespace TestApp
             return GetUser(username) != null;
         }
 
-
+        /// <summary>
+        /// Überprüft mittels eines ICMP Pings ob der angegebene Host zur verfügung steht.
+        /// </summary>
+        /// <param name="hostUri">Adresse des hosts</param>
+        /// <param name="portNumber">Zielport des Hosts</param>
+        /// <returns>true wenn der sever antwortet, andernfalls false.</returns>
         public static bool PingHost(string hostUri, int portNumber)
         {
             try
@@ -197,7 +200,7 @@ namespace TestApp
 
             if(connection.State == System.Data.ConnectionState.Closed)
             {
-                connection.Open();
+                createConnection(ConnectionStringWithoutDatabase);
             }
             foreach (string commandString in commandStrings)
             {
@@ -208,7 +211,33 @@ namespace TestApp
                     command.ExecuteNonQuery();
                 }
             }
+            Console.WriteLine("\nDatabase created!");
+            Console.WriteLine("Table User created!");
+            Console.WriteLine("Admin account created!");
             connection.Close();
+            Console.WriteLine("trying to connect ...");
+            bool status = connect() == 1;
+            if (status)
+            {
+                Console.WriteLine("success!");
+            }
+            else
+            {
+                Console.WriteLine("failed");
+            }
+        }
+        private void createConnection(string ConnectionString) 
+        {
+            try
+            {
+                connection = new MySqlConnection(ConnectionString);
+                command = connection.CreateCommand();
+                connection.Open();
+            }
+            catch (MySqlException msqlex)
+            {
+                throw;
+            }
         }
     }
 }
