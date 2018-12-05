@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using MaterialDesignThemes.Wpf;
+using PC_Verwaltung.Dasboard;
 
 namespace PC_Verwaltung
 {
@@ -59,18 +61,6 @@ namespace PC_Verwaltung
             register();
         }
 
-        private void register()
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                
-            }
-            else
-            {
-                
-            }
-        }
-
         private void Btn_abort_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -79,7 +69,7 @@ namespace PC_Verwaltung
 
         private void click_eye_password(object sender, MouseButtonEventArgs e)
         {
-            if(card_reveal_pw.Visibility == Visibility.Collapsed)
+            if (card_reveal_pw.Visibility == Visibility.Collapsed)
             {
                 card_reveal_pw.Visibility = Visibility.Visible;
                 password_eye.Kind = MaterialDesignThemes.Wpf.PackIconKind.Eye;
@@ -94,6 +84,34 @@ namespace PC_Verwaltung
         private void Pb_password_PasswordChanged(object sender, RoutedEventArgs e)
         {
             card_reveal_pw_text.Text = pb_password.Password;
+            tb_notification.Text = "";
         }
+
+        private void register()
+        {
+            //Check Username in Database
+            if (!(string.IsNullOrEmpty(name) | string.IsNullOrEmpty(surname) | string.IsNullOrEmpty(username)))
+            {
+                if (pb_password.Password.Any(char.IsUpper) && pb_password.Password.Any(char.IsLower) && pb_password.Password.Any(char.IsNumber) && pb_password.Password.Any(char.IsSymbol))
+                {
+                    if(pb_password.Password == pb_passwordconfirm.Password)
+                    {
+                        MainDashboardWindow dashboard = new MainDashboardWindow(new User("Test", "password", false));
+                    }
+                }
+                else
+                {
+                    tb_notification.Foreground = Brushes.Red;
+                    tb_notification.Text = "Das Passwort muss: Groß- und Kleinschreibung\nNummern und Sonderzeichen enthalten!";
+                }
+            }
+            else
+            {
+                tb_notification.Foreground = Brushes.Red;
+                tb_notification.Text = "Bitte überprüfen sie ihre Eingaben";
+            }
+        }
+
+        
     }
 }

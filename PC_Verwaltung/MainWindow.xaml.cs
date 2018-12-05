@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PC_Verwaltung.Dasboard;
 
 namespace PC_Verwaltung
 {
@@ -165,8 +166,9 @@ namespace PC_Verwaltung
 
                 if(currentUser != null && currentUser.password == User.sha256(pb_password.Password))
                 {
+                    MainDashboardWindow dashboard = new MainDashboardWindow(currentUser);
+                    dashboard.Show();
                     this.Close();
-                    MessageBox.Show("Herzlich Wilkommen, " + currentUser.username + "!");
                 }
                 else
                 {

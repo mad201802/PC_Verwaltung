@@ -16,14 +16,14 @@ namespace ValidationRules
         {
             if (!string.IsNullOrEmpty((string)value))
             {
-                if (value != null && Regex.IsMatch((string)value, @"^\w+(\.\w+)?(\-\w+)?$") && ((string) value).Length > 5 && ((string)value).Length < 20)
+                if (value != null && Regex.IsMatch((string)value, @"^\w+(\.\w+)?(\-\w+)?$") && ((string) value).Length >= 5 && ((string)value).Length <= 20)
                 {
 
                     return ValidationResult.ValidResult;
                 }
                 else
                 {
-                    return new ValidationResult(false, "Bitte beachten! 5-10 Zeichen, A-z, 0-9, (-.)");
+                    return new ValidationResult(false, "Bitte beachten! 5-20 Zeichen, A-z, 0-9, -.");
                 }
             }
             else
