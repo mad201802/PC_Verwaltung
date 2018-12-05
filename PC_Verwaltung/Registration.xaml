@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
+        xmlns:rules="clr-namespace:ValidationRules"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="Login" Height="500" Width="350" 
         ResizeMode="NoResize" 
@@ -35,16 +36,61 @@
 
         <Grid VerticalAlignment="Bottom" Margin="35,40" Height="350">
             <TextBlock Text="Bitte fülle alle Felder aus:" Foreground="Gray" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="56,10,55.4,0"/>
-            <TextBox Name="tb_name" materialDesign:HintAssist.Hint="Vorname" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25,33,0,0" Width="100"/>
-            <TextBox Name="tb_surname" materialDesign:HintAssist.Hint="Nachname" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,33,10.4,0" Width="125"/>
-            <TextBox Name="tb_username" materialDesign:HintAssist.Hint="Username" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,80,10.4,0" Width="246"/>
+            <TextBox Name="tb_name" materialDesign:HintAssist.Hint="Vorname" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25,33,0,0" Width="100">
+                <TextBox.Text>
+                     <Binding Path="name" UpdateSourceTrigger="LostFocus">
+                        <Binding.ValidationRules>
+                            <rules:NameValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox Name="tb_surname" materialDesign:HintAssist.Hint="Nachname" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,33,10.4,0" Width="125">
+                <TextBox.Text>
+                    <Binding Path="surname" UpdateSourceTrigger="LostFocus">
+                        <Binding.ValidationRules>
+                            <rules:NameValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox Name="tb_username" materialDesign:HintAssist.Hint="Username" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,80,10.4,0" Width="246">
+                <TextBox.Text>
+                    <Binding Path="username" UpdateSourceTrigger="LostFocus">
+                        <Binding.ValidationRules>
+                            <rules:UsernameValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
             <materialDesign:PackIcon Kind="User" Margin="3,104,0,0" Foreground="Gray" RenderTransformOrigin="0.45,-1.1"/>
-            <TextBox Name="tb_email" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="24,124,0,0" Width="246"/>
+            <TextBox Name="tb_email" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="24,124,0,0" Width="246">
+                <TextBox.Text>
+                    <Binding Path="email" UpdateSourceTrigger="LostFocus">
+                        <Binding.ValidationRules>
+                            <rules:EmailValidationRule ValidatesOnTargetUpdated="True" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
             <materialDesign:PackIcon Kind="Email" Margin="4,147,0,0" Foreground="Gray" RenderTransformOrigin="0.75,-0.5"/>
-            <PasswordBox Name="pb_password" materialDesign:HintAssist.Hint="Passwort" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25,168,0,0" Width="246"/>
-            <materialDesign:PackIcon Kind="Lock" Margin="4,195,0,0" Foreground="Gray" RenderTransformOrigin="0.563,1.338"/>
+            
+            <PasswordBox Name="pb_password" materialDesign:HintAssist.Hint="Passwort" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25,168,0,0" Width="246" PasswordChanged="Pb_password_PasswordChanged" />
+            <materialDesign:PackIcon Kind="Lock" Margin="4,191,0,0" Foreground="Gray" RenderTransformOrigin="0.563,1.338"/>
+            <materialDesign:PackIcon Name="password_eye" Foreground="Gray" Kind="EyeOff" Margin="250,186,0,0" RenderTransformOrigin="0.075,0.138" MouseDown="click_eye_password"/>
             <PasswordBox Name="pb_passwordconfirm" materialDesign:HintAssist.Hint="Passwort wiederholen" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25,212,0,0" Width="246"/>
-            <materialDesign:PackIcon Kind="Lock" Margin="4,239,0,0" Foreground="Gray" RenderTransformOrigin="0.4,-0.15"/>
+            <materialDesign:PackIcon Kind="Lock" Margin="4,235,0,0" Foreground="Gray" RenderTransformOrigin="0.4,-0.15"/>
+            <materialDesign:Card
+                    Name="card_reveal_pw"
+                    Background="LightGray"
+                    Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+                    Padding="8" Margin="25,207,6.4,0"
+                    UniformCornerRadius="6" Height="40">
+                <TextBlock
+                    Name="card_reveal_pw_text"
+                    FontSize="16" Margin="0,0,-6.2,-0.2">
+                </TextBlock>
+            </materialDesign:Card>
             <TextBlock Name="tb_notification" VerticalAlignment="Bottom" TextAlignment="Center" Foreground="Gray" FontSize="14" HorizontalAlignment="Left" Margin="4,0,0,53" Width="270" />
             <CheckBox Style="{StaticResource MaterialDesignCheckBox}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="Gray" Margin="10,0,0,31">
                 Ich stimme den Nutzungsbedingungen zu
@@ -52,7 +98,7 @@
         </Grid>
 
         <Button Name="btn_register" Width="120" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="50,0,185,30" Content="Registrieren" Click="Btn_register_Click"/>
-        <Button Name="btn_abort" Width="120" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="181,0,51.4,30" Content="Abbrechen" Click="Btn_register_Click"/>
+        <Button Name="btn_abort" Width="120" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="181,0,51.4,30" Content="Abbrechen" Click="Btn_abort_Click"/>
         <Label Content="Version: 0.9" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
 
     </Grid>

@@ -21,17 +21,22 @@ namespace PC_Verwaltung
     /// </summary>
     public partial class Registration : Window
     {
-        /*
-        public string name { get; private set; }
-        public string surname { get; private set; }
-        public string email { get; private set; }
-        public string password { get; private set; }
-        public string passwordconfirm { get; private set; }
-        */
+        public Window w;
+        public string name { get; set; }
+        public string surname { get; set; }
 
-        public Registration()
+        public string username { get; set; }
+
+        public string email { get; set; }
+        public string password { get; set; }
+        public string passwordconfirm { get; set; }
+
+        public Registration(Window w)
         {
+            this.w = w;
             InitializeComponent();
+            DataContext = this;
+            card_reveal_pw.Visibility = Visibility.Collapsed;
         }
 
         private void Grid_KeyDown(object sender, KeyEventArgs e)
@@ -56,7 +61,39 @@ namespace PC_Verwaltung
 
         private void register()
         {
-            
+            if (string.IsNullOrEmpty(name))
+            {
+                
+            }
+            else
+            {
+                
+            }
+        }
+
+        private void Btn_abort_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            w.Show();
+        }
+
+        private void click_eye_password(object sender, MouseButtonEventArgs e)
+        {
+            if(card_reveal_pw.Visibility == Visibility.Collapsed)
+            {
+                card_reveal_pw.Visibility = Visibility.Visible;
+                password_eye.Kind = MaterialDesignThemes.Wpf.PackIconKind.Eye;
+            }
+            else
+            {
+                card_reveal_pw.Visibility = Visibility.Collapsed;
+                password_eye.Kind = MaterialDesignThemes.Wpf.PackIconKind.EyeOff;
+            }
+        }
+
+        private void Pb_password_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            card_reveal_pw_text.Text = pb_password.Password;
         }
     }
 }

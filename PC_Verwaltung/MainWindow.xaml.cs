@@ -30,21 +30,42 @@ namespace PC_Verwaltung
         {
             InitializeComponent();
             card_reveal_pw.Visibility = Visibility.Collapsed;
-            
-            if (!database.connect())
+
+            switch (database.connect())
             {
-                MessageBoxResult r = MessageBox.Show("Es konnte keine Verbindung zur Datenbank aufgebaut werden.\nWollen sie es erneut versuchen?", "Fehler beim Zugriff auf die Datenbank", MessageBoxButton.YesNo, MessageBoxImage.Error);
-                if(r == MessageBoxResult.Yes)
-                {
-                    System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-                    Application.Current.Shutdown();
-                }
-                else
-                {
-                    Application.Current.Shutdown();
-                }
-                
+                case 1:
+                    //Erfolgreich verbunden
+                    break;
+                case 0:
+
+                    MessageBoxResult r1 = MessageBox.Show("Auf dem Server wurde keine Datenbank gefunden.\nWollen sie diese erstellen?", "Fehler beim Zugriff auf die Datenbank", MessageBoxButton.YesNo, MessageBoxImage.Error);
+                    if (r1 == MessageBoxResult.Yes)
+                    {
+                        //Methode: Erstellen der Datenbank
+                    }
+                    else
+                    {
+                        Application.Current.Shutdown();
+                    }
+
+                    break;
+
+                case -1:
+
+                    MessageBoxResult r2 = MessageBox.Show("Es konnte keine Verbindung zum Server aufgebaut werden.\nWollen sie es erneut versuchen?", "Fehler beim Verbinden zur Datenbank", MessageBoxButton.YesNo, MessageBoxImage.Error);
+                    if (r2 == MessageBoxResult.Yes)
+                    {
+                        System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+                        Application.Current.Shutdown();
+                    }
+                    else
+                    {
+                        Application.Current.Shutdown();
+                    }
+
+                    break;
             }
+
             Loaded += (sender, e) =>
             MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
@@ -128,8 +149,8 @@ namespace PC_Verwaltung
         private void click_registeruser(object sender, MouseButtonEventArgs e)
         {
             //MessageBox.Show("Diese Funktion wurde noch nicht implementiert\nBitte kontaktieren sie den Entwickler", "Noch nicht implementierte Funktion", MessageBoxButton.OK, MessageBoxImage.Information);
-            Registration r = new Registration();
-            this.Close();
+            Registration r = new Registration(this);
+            this.Hide();
             r.Show();
         }
 
