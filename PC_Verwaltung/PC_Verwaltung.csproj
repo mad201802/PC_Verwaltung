@@ -80,6 +80,9 @@
       <DependentUpon>Registration.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs" />
+    <Compile Include="ValidationRules\EmailValidationRule.cs" />
+    <Compile Include="ValidationRules\NameValidationRule.cs" />
+    <Compile Include="ValidationRules\UsernameValidationRule.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
