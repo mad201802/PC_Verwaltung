@@ -181,5 +181,13 @@ namespace PC_Verwaltung
                 return false;
             }
         }
+
+        /// <summary>
+        /// Führt mehere SQL Befehle aus die sowohl die Datenbank als auch die User Tabelle mit dem Admin erstellen.
+        /// </summary>
+        public void CreateDatabase()
+        {
+
+        }
     }
 }

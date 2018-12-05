@@ -17,33 +17,8 @@ namespace TestApp
 
         static void Main(string[] args)
         {
-            ComputerInformation CI = new ComputerInformation();
-            CI.gatherInformation();
-            Console.WriteLine("CPU:");
-            Console.WriteLine("CPU Anzahl: " + CI.CPUcount);
-            Console.WriteLine("CPU Name: " + CI.CPUname);
-            Console.WriteLine("CPU Kerne: " + CI.CPUcores);
-            Console.WriteLine("CPU Threads: " + CI.CPUthreads);
-            Console.WriteLine("CPU Architektur: " + CI.CPUarchitecture);
-            Console.WriteLine("CPU Base Clock: " + CI.CPUbaseClock + " MHz");
-            Console.WriteLine("CPU Max Clock: " + CI.CPUmaxSyncClock + " MHz");
-            Console.WriteLine("CPU Bits: " + CI.CPUbits);
-            Console.WriteLine("CPU Level 3 Cache: " + CI.CPUl3cache);
-            
-            Console.WriteLine("CPU Hersteller: " + CI.CPUmanufacture);
-            Console.WriteLine("----\nGPU:");
-            Console.WriteLine("GPU Hersteller: " + CI.GPUmanufacture);
-            Console.WriteLine("GPU Name: " + CI.GPUname);
-            Console.WriteLine("GPU RAM: " + CI.GPUram + " GB");
 
-            Console.WriteLine("----\nMobo:");
-            Console.WriteLine("Mobo Hersteller: " + CI.motherboardManufacture);
-            Console.WriteLine("Mobo Modell: " + CI.motherboardModel);
-
-            Console.WriteLine("----\nRAM:");
-            Console.WriteLine("RAM Größe in GB: " + CI.ramSizeInGB);
-            Console.WriteLine("RAM Takt: " + CI.ramDimSpeeds[0] + " MHz");
-            
+            testDatabaseCreation();
 
 
             #region database testing
@@ -79,6 +54,63 @@ namespace TestApp
 
             Console.ReadKey();
 
+        }
+
+        static void testHardware()
+        {
+            ComputerInformation CI = new ComputerInformation();
+            CI.gatherInformation();
+            Console.WriteLine("CPU:");
+            Console.WriteLine("CPU Anzahl: " + CI.CPUcount);
+            Console.WriteLine("CPU Name: " + CI.CPUname);
+            Console.WriteLine("CPU Kerne: " + CI.CPUcores);
+            Console.WriteLine("CPU Threads: " + CI.CPUthreads);
+            Console.WriteLine("CPU Architektur: " + CI.CPUarchitecture);
+            Console.WriteLine("CPU Base Clock: " + CI.CPUbaseClock + " MHz");
+            Console.WriteLine("CPU Max Clock: " + CI.CPUmaxSyncClock + " MHz");
+            Console.WriteLine("CPU Bits: " + CI.CPUbits);
+            Console.WriteLine("CPU Level 3 Cache: " + CI.CPUl3cache);
+
+            Console.WriteLine("CPU Hersteller: " + CI.CPUmanufacture);
+            Console.WriteLine("----\nGPU:");
+            Console.WriteLine("GPU Hersteller: " + CI.GPUmanufacture);
+            Console.WriteLine("GPU Name: " + CI.GPUname);
+            Console.WriteLine("GPU RAM: " + CI.GPUram + " GB");
+
+            Console.WriteLine("----\nMobo:");
+            Console.WriteLine("Mobo Hersteller: " + CI.motherboardManufacture);
+            Console.WriteLine("Mobo Modell: " + CI.motherboardModel);
+
+            Console.WriteLine("----\nRAM:");
+            Console.WriteLine("RAM Größe in GB: " + CI.ramSizeInGB);
+            Console.WriteLine("RAM Takt: " + CI.ramDimSpeeds[0] + " MHz");
+        }
+
+        static void testDatabaseCreation()
+        {
+            //config
+            string server = "127.0.0.1";
+            string database = "pc_verwaltung";
+            string uid = "root";
+            string password = "";
+
+            Database db = new Database(server, database, uid, password);
+            switch(db.connect())
+            {
+                case -1:
+                    Console.WriteLine("Server antwortet nicht");
+                    break;
+                case 0:
+                    Console.WriteLine("Datenbank nicht gefunden. \nSoll die Datenbank erstellt werden? y/n");
+                    if(Console.ReadKey().Key == ConsoleKey.Y)
+                    {
+                        db.CreateDatabase();
+                    }
+                    break;
+                case 1:
+                    Console.WriteLine("Connected");
+                    break;
+            }
         }
     }
 }
