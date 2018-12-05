@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using MySql.Data;
@@ -13,14 +14,14 @@ namespace PC_Verwaltung
     public class Database
     {
 
-        private string ConnectionString;
+        private string ConnectionString, ConnectionStringWithoutDatabase;
         private MySqlConnection connection;
         private MySqlCommand command;
         private string server;
-
         public Database(string server, string database, string uid, string password)
         {
             this.server = server;
+            ConnectionStringWithoutDatabase = "SERVER=" + server + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
             ConnectionString = "SERVER=" + server + ";" + "DATABASE=" + database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
         }
 
@@ -32,13 +33,11 @@ namespace PC_Verwaltung
         /// -1 wenn der server nicht antwortet</returns>
         public int connect()
         {
-            if(PingHost(server, 3306))
+            if (PingHost(server, 3306))
             {
                 try
                 {
-                    connection = new MySqlConnection(ConnectionString);
-                    command = connection.CreateCommand();
-                    connection.Open();
+                    createConnection(ConnectionString);
                     return 1;
 
                 }
@@ -51,7 +50,7 @@ namespace PC_Verwaltung
             {
                 return -1;
             }
-            
+
         }
         /// <summary>
         /// Sucht nach einem User in der Datenbank mit dem angegeben Usernamen.
@@ -168,7 +167,12 @@ namespace PC_Verwaltung
             return GetUser(username) != null;
         }
 
-
+        /// <summary>
+        /// Überprüft mittels eines ICMP Pings ob der angegebene Host zur verfügung steht.
+        /// </summary>
+        /// <param name="hostUri">Adresse des hosts</param>
+        /// <param name="portNumber">Zielport des Hosts</param>
+        /// <returns>true wenn der sever antwortet, andernfalls false.</returns>
         public static bool PingHost(string hostUri, int portNumber)
         {
             try
@@ -187,7 +191,52 @@ namespace PC_Verwaltung
         /// </summary>
         public void CreateDatabase()
         {
+            string script = Properties.Resources.pcverwaltung;
 
+            // split script on GO command
+            IEnumerable<string> commandStrings = Regex.Split(script, @"^\s*GO\s*$",
+                                     RegexOptions.Multiline | RegexOptions.IgnoreCase);
+
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                createConnection(ConnectionStringWithoutDatabase);
+            }
+            foreach (string commandString in commandStrings)
+            {
+                if (commandString.Trim() != "")
+                {
+                    command.CommandText = commandString;
+                    command.Prepare();
+                    command.ExecuteNonQuery();
+                }
+            }
+            Console.WriteLine("\nDatabase created!");
+            Console.WriteLine("Table User created!");
+            Console.WriteLine("Admin account created!");
+            connection.Close();
+            Console.WriteLine("trying to connect ...");
+            bool status = connect() == 1;
+            if (status)
+            {
+                Console.WriteLine("success!");
+            }
+            else
+            {
+                Console.WriteLine("failed");
+            }
         }
-    }
-}
+        private void createConnection(string ConnectionString)
+        {
+            try
+            {
+                connection = new MySqlConnection(ConnectionString);
+                command = connection.CreateCommand();
+                connection.Open();
+            }
+            catch (MySqlException msqlex)
+            {
+                throw;
+            }
+        }
+    } // endclass
+} //endnamespace

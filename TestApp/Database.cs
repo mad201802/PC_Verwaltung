@@ -168,7 +168,12 @@ namespace TestApp
             return GetUser(username) != null;
         }
 
-
+        /// <summary>
+        /// Überprüft mittels eines ICMP Pings ob der angegebene Host zur verfügung steht.
+        /// </summary>
+        /// <param name="hostUri">Adresse des hosts</param>
+        /// <param name="portNumber">Zielport des Hosts</param>
+        /// <returns>true wenn der sever antwortet, andernfalls false.</returns>
         public static bool PingHost(string hostUri, int portNumber)
         {
             try

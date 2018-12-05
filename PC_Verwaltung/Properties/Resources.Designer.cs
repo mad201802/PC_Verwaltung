@@ -59,5 +59,24 @@ namespace PC_Verwaltung.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die -- --------------------------------------------------------
+        ///-- Host:                         127.0.0.1
+        ///-- Server Version:               10.1.36-MariaDB - mariadb.org binary distribution
+        ///-- Server Betriebssystem:        Win32
+        ///-- HeidiSQL Version:             9.5.0.5196
+        ///-- --------------------------------------------------------
+        ///
+        ////*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+        ////*!40101 SET NAMES utf8 */;
+        ////*!50503 SET NAMES utf8mb4 */;
+        ////*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_ [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string pcverwaltung {
+            get {
+                return ResourceManager.GetString("pcverwaltung", resourceCulture);
+            }
+        }
     }
 }

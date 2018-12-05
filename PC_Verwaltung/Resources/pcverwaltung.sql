@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- Exportiere Daten aus Tabelle pc_verwaltung.user: ~1 rows (ungefähr)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
