@@ -113,8 +113,8 @@ namespace PC_Verwaltung
                 connection.Open();
             }
 
-            command.CommandText = "INSERT INTO user(username, password)" +
-            "VALUES('" + newUser.username + "', '" + newUser.password + "');";
+            command.CommandText = "INSERT INTO user(username, password, name, surname, email)" +
+            "VALUES('" + newUser.username + "', '" + newUser.password + "', '" + newUser.name + "', '" + newUser.surname + "', '" + newUser.email + "');";
             command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
             command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
 
