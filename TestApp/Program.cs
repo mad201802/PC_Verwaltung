@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Management;
 using System.Text;
@@ -18,9 +20,29 @@ namespace TestApp
         static void Main(string[] args)
         {
 
-            testDatabaseCreation();
+            //testDatabaseCreation();
 
 
+            string dirName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PC_verwaltung");
+            string fileName = Path.Combine(dirName, "config.txt");
+            
+            if (! Directory.Exists(dirName))
+            {
+                Directory.CreateDirectory(dirName);
+                
+            }
+
+
+
+            string[] lines = { "db_user=root", "db_pass=" };
+            
+
+            File.WriteAllLines(fileName, lines);
+
+
+
+        Console.WriteLine(fileName);
+            Process.Start(dirName);
             #region database testing
             /*
             //config
@@ -55,6 +77,9 @@ namespace TestApp
             Console.ReadKey();
 
         }
+
+
+
 
         static void testHardware()
         {

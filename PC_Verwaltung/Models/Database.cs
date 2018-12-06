@@ -100,10 +100,9 @@ namespace PC_Verwaltung
         /// <summary>
         /// Erstellt ein neuen User in der Datenbank
         /// </summary>
-        /// <param name="currentUser">Der aktuell eingeloggte user - für admins um User hinzuzufügen --> Zukünfigte funktion</param>
         /// <param name="NewUser">Der User der erstellt werden soll.</param>
         /// <returns></returns>
-        public bool createNewUser(User currentUser, User NewUser)
+        public bool createNewUser(User NewUser)
         {
             //TODO: Überprüfen ob user neue User hinzufügen darf.
 
@@ -168,6 +167,17 @@ namespace PC_Verwaltung
             {
                 return false;
             }
+        }
+
+
+        public bool updateUser(User user)
+        {
+            throw new MissingMethodException("not yet implemented");
+        }
+
+        public bool deleteUser(User user)
+        {
+            throw new MissingMethodException("not yet implemented");
         }
 
         /// <summary>
