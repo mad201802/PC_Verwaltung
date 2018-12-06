@@ -92,12 +92,12 @@
                 </TextBlock>
             </materialDesign:Card>
             <TextBlock Name="tb_notification" VerticalAlignment="Bottom" TextAlignment="Center" Foreground="Gray" FontSize="12" HorizontalAlignment="Left" Margin="4,0,0,53" Width="270" Height="41" />
-            <CheckBox Style="{StaticResource MaterialDesignCheckBox}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="Gray" Margin="10,0,0,31">
+            <CheckBox Name="cb_nb" Style="{StaticResource MaterialDesignCheckBox}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="Gray" Margin="10,0,0,31">
                 Ich stimme den Nutzungsbedingungen zu
             </CheckBox>
         </Grid>
 
-        <Button Name="btn_register" Width="120" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="50,0,185,30" Content="Registrieren" Command="{Binding register}"/>
+        <Button Name="btn_register" Width="120" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="50,0,185,30" Content="Registrieren" Click="Btn_register_Click"/>
         <Button Name="btn_abort" Width="120" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="181,0,51.4,30" Content="Abbrechen" Click="Btn_abort_Click"/>
         <Label Content="Version: 0.9" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
 

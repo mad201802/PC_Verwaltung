@@ -97,13 +97,22 @@ namespace PC_Verwaltung
             //Check Username in Database
             if (!(string.IsNullOrEmpty(name) | string.IsNullOrEmpty(surname) | string.IsNullOrEmpty(username)))
             {
-                if (pb_password.Password.Any(char.IsUpper) && pb_password.Password.Any(char.IsLower) && pb_password.Password.Any(char.IsNumber) && pb_password.Password.Any(char.IsSymbol))
+                if (pb_password.Password.Any(ch => !Char.IsLetterOrDigit(ch)))
                 {
                     if(pb_password.Password == pb_passwordconfirm.Password)
                     {
-                        MainDashboardWindow dashboard = new MainDashboardWindow(new User(name, surname, username, email, User.sha256(pb_password.Password)                                                      , true));
-                        dashboard.Show();
-                        this.Close();
+                        if (cb_nb.IsChecked == true)
+                        {
+                            Console.WriteLine("Login");
+                            MainDashboardWindow dashboard = new MainDashboardWindow(new User(name, surname, username, email, User.sha256(pb_password.Password), true));
+                            dashboard.Show();
+                            this.Close();
+                        }
+                        else
+                        {
+                            tb_notification.Foreground = Brushes.Red;
+                            tb_notification.Text = "Bitte stimme den Nutzungsbedingungen zu";
+                        }
                     }
                     else
                     {
@@ -120,7 +129,7 @@ namespace PC_Verwaltung
             else
             {
                 tb_notification.Foreground = Brushes.Red;
-                tb_notification.Text = "Bitte überprüfen sie ihre Eingaben";
+                tb_notification.Text = "Bitte überprüfe deine Eingaben";
             }
         }
 

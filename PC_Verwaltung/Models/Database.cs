@@ -75,7 +75,7 @@ namespace PC_Verwaltung
                 if (Reader.HasRows)
                 {
                     Reader.Read();
-                    User u = new User(Reader.GetString(1), Reader.GetString(2), false);
+                    User u = new User("mysqlname", "mysqlsurname", Reader.GetString(1), "email@email.com", Reader.GetString(2), false);
                     connection.Close();
                     return u;
                 }
