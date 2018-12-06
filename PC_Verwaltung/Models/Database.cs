@@ -104,8 +104,6 @@ namespace PC_Verwaltung
         /// <returns></returns>
         public bool createNewUser(User NewUser)
         {
-            //TODO: Überprüfen ob user neue User hinzufügen darf.
-
             //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
             if (connection.State == System.Data.ConnectionState.Closed)
             {
@@ -169,10 +167,41 @@ namespace PC_Verwaltung
             }
         }
 
-
+        /// <summary>
+        /// Ändert Stammdaten des Users in der Datenbank
+        /// ändert NICHT Username und Password!
+        /// </summary>
+        /// <param name="user">der zu updatened User</param>
+        /// <returns>true wenn erfolg</returns>
         public bool updateUser(User user)
         {
-            throw new MissingMethodException("not yet implemented");
+            //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            //validierung
+            if (user.username == null || user.password == null)
+            {
+                throw new ArgumentException("Username or Password is null!");
+            }
+
+            // Parsing zu SQL
+            string name, surname, email;
+            name = ParseToSQLValues(user.name);
+            surname = ParseToSQLValues(user.surname);
+            email = ParseToSQLValues(user.email);
+
+            //erstellen des SQL statements
+            command.CommandText = "UPDATE user"+
+                "SET name = '" + name + "' , surname = '" + surname + "' , email = '" + email + 
+                "' WHERE username = '" + user.username + 
+                " AND password = '" + user.password + "';";
+            command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
+            int result = command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
+
+            connection.Close();
+            return result == 1;
         }
 
         public bool deleteUser(User user)
@@ -273,6 +302,12 @@ namespace PC_Verwaltung
             }
         }
 
+        /// <summary>
+        /// Parst die Werte in ihre entspechende SQL werte. 
+        /// Unterstüzt string, int, bool
+        /// </summary>
+        /// <param name="value">wert der convertiert werden soll als string, int oder bool</param>
+        /// <returns>Das entsprechende SQL value als string für INSERT Statement</returns>
         private string ParseToSQLValues(object value)
         {
             if(value.GetType().Equals(typeof(string)))

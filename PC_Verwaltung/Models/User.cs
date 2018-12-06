@@ -11,8 +11,11 @@ namespace PC_Verwaltung
         public string name { get; private set; }
 
         public string surname { get; private set; }
-
-        public string username { get; private set;}
+        
+        /// <summary>
+        /// Nicht veränderbar!
+        /// </summary>
+        public string username { get; }
 
         public string email { get; private set; }
 
