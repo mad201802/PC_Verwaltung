@@ -79,7 +79,7 @@ namespace TestApp
                 if (Reader.HasRows)
                 {
                     Reader.Read();
-                    User u = new User(Reader.GetString(1), Reader.GetString(2), false);
+                    User u = new User("Test", "Test", Reader.GetString(1), "test@test.de", Reader.GetString(2), false);
                     connection.Close();
                     return u;
                 }

@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using PC_Verwaltung.Dasboard.Canvas;
 
 namespace PC_Verwaltung.Dasboard
 {
@@ -24,10 +25,17 @@ namespace PC_Verwaltung.Dasboard
         public MainDashboardWindow(User current)
         {
             InitializeComponent();
-            Console.WriteLine("Opened");
             this.current = current;
             this.Visibility = Visibility.Collapsed;
-            chip_currentuser.Content = current.username;
+
+            chip_currentuser.Content = current.name + " " + current.surname;
+            if(string.IsNullOrEmpty(current.name + current.surname))
+            {
+                chip_currentuser.Content = "Admin";
+            }
+
+            MainGrid.Children.Add(new DashboardUC());
+
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -45,26 +53,25 @@ namespace PC_Verwaltung.Dasboard
 
         private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            MainGrid.Children.Clear();
-
             int index = ListViewMenu.SelectedIndex;
             MoveCursorMenu(index);
 
             switch (((ListViewItem)((ListView)sender).SelectedItem).Name)
             {
                 case "dashboard":
-                    current_topic.Text = "Dashboard";
-                   //Change the child for Dashboard 
+                    current_topic.Text = "Dashboard"; 
+                    MainGrid.Children.Clear();
+                    MainGrid.Children.Add(new DashboardUC());
                     break;
                 case "item1":
                     current_topic.Text = "Example Item 1";
-                    //Change the child for Dashboard 
                     break;
                 case "item2":
                     current_topic.Text = "Example Items 2";
-                    //Change the child for Dashboard 
                     break;
                 default:
+                    MainGrid.Children.Clear();
+                    MainGrid.Children.Add(new DashboardUC());
                     break;
             }
         }

@@ -75,6 +75,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dasboard\Canvas\DashboardUC.xaml.cs">
+      <DependentUpon>DashboardUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dasboard\MainDashboardWindow.xaml.cs">
       <DependentUpon>MainDashboardWindow.xaml</DependentUpon>
     </Compile>
@@ -85,6 +88,10 @@
     <Compile Include="ValidationRules\EmailValidationRule.cs" />
     <Compile Include="ValidationRules\NameValidationRule.cs" />
     <Compile Include="ValidationRules\UsernameValidationRule.cs" />
+    <Page Include="Dasboard\Canvas\DashboardUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dasboard\MainDashboardWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
