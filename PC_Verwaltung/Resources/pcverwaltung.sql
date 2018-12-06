@@ -18,14 +18,22 @@ USE `pc_verwaltung`;
 
 -- Exportiere Struktur von Tabelle pc_verwaltung.user
 CREATE TABLE IF NOT EXISTS `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `password` text COLLATE utf8_bin NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`username` VARCHAR(64) NOT NULL COLLATE 'utf8_bin',
+	`password` TEXT NOT NULL COLLATE 'utf8_bin',
+	`email` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_bin',
+	`name` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_bin',
+	`surname` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_bin',
+	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `username` (`username`),
+	UNIQUE INDEX `email` (`email`)
+)
+COLLATE='utf8_bin'
+ENGINE=InnoDB
+AUTO_INCREMENT=1
+;
 
 -- Exportiere Daten aus Tabelle pc_verwaltung.user: ~1 rows (ungefähr)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;

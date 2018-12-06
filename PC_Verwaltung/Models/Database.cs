@@ -265,18 +265,19 @@ namespace PC_Verwaltung
 
         private string ParseToSQLValues(object value)
         {
-            if(value.Equals(typeof(string)))
+            if(value.GetType().Equals(typeof(string)))
             {
-                string output = value == null ? "NULL" : "'" + value + "'";
+                string a = (string)value;
+                string output = value == null ? "NULL" : "'" + a + "'";
                 return output;
             }
-            else if(value.Equals(typeof(int)))
+            else if(value.GetType().Equals(typeof(int)))
             {
                 int a = (int) value;
                 string output = value == null ? "NULL" : a.ToString();
                 return output;
             }
-            else if(value.Equals(typeof(bool)))
+            else if(value.GetType().Equals(typeof(bool)))
             {
                 int a = (bool)value ? 1 : 0;
                 string output = value == null ? "NULL" : a.ToString();

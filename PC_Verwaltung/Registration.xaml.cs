@@ -103,7 +103,7 @@ namespace PC_Verwaltung
                     {
                         if (cb_nb.IsChecked == true)
                         {
-                            User newUser = new User(name, surname, username, email, User.sha256(pb_password.Password), true);
+                            User newUser = new User(name, surname, username, email, pb_password.Password, true);
                             MainWindow.database.createNewUser(MainWindow.currentUser, newUser);
                             MainDashboardWindow dashboard = new MainDashboardWindow(newUser);
                             dashboard.Show();
