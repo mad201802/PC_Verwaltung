@@ -39,11 +39,14 @@ namespace TestApp
                 try
                 {
                     createConnection(ConnectionString);
+                    createTable();
                     return 1;
-
+                    
+                    
                 }
                 catch (Exception ex)
                 {
+                    throw;
                     return 0;
                 }
             }
@@ -226,6 +229,25 @@ namespace TestApp
                 Console.WriteLine("failed");
             }
         }
+
+        public void createTable()
+        {
+            if(connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            command.CommandText = "SHOW TABLES LIKE 'user';";
+            command.Prepare();
+            MySqlDataReader reader = command.ExecuteReader();
+            if(!reader.HasRows)
+            {
+                connection.Close();
+                CreateDatabase();
+            }
+            connection.Close();
+        }
+
         private void createConnection(string ConnectionString) 
         {
             try
