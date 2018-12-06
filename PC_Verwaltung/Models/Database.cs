@@ -150,6 +150,10 @@ namespace PC_Verwaltung
             {
                 connection.Open();
             }
+            if(newPassword == null || newPassword.Equals(string.Empty))
+            {
+                throw new ArgumentException();
+            }
             command.CommandText = "UPDATE user SET password = '" + newPassword + "' WHERE username = '" + currentUser.username + "';";
             command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
             int statusCode = command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
