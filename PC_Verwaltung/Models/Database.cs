@@ -101,9 +101,9 @@ namespace PC_Verwaltung
         /// Erstellt ein neuen User in der Datenbank
         /// </summary>
         /// <param name="currentUser">Der aktuell eingeloggte user - für admins um User hinzuzufügen --> Zukünfigte funktion</param>
-        /// <param name="newUser">Der User der erstellt werden soll.</param>
+        /// <param name="NewUser">Der User der erstellt werden soll.</param>
         /// <returns></returns>
-        public bool createNewUser(User currentUser, User newUser)
+        public bool createNewUser(User currentUser, User NewUser)
         {
             //TODO: Überprüfen ob user neue User hinzufügen darf.
 
@@ -112,9 +112,23 @@ namespace PC_Verwaltung
             {
                 connection.Open();
             }
+            //validierung
+            if(NewUser.username == null || NewUser.password == null)
+            {
+                throw new ArgumentException("Username or Password is null!");
+            }
 
+            // Parsing zu SQL
+            string username, password, name, surname, email;
+            username = NewUser.username;
+            password = NewUser.password;
+            name = ParseToSQLValues(NewUser.name);
+            surname = ParseToSQLValues(NewUser.surname); 
+            email = ParseToSQLValues(NewUser.email); 
+
+            //erstellen des SQL statements
             command.CommandText = "INSERT INTO user(username, password, name, surname, email)" +
-            "VALUES('" + newUser.username + "', '" + newUser.password + "', '" + newUser.name + "', '" + newUser.surname + "', '" + newUser.email + "');";
+            "VALUES('" + username + "', '" + password + "', " + name + ", " + surname + ", " + email + ");";
             command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
             command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
 
@@ -242,6 +256,31 @@ namespace PC_Verwaltung
             catch (MySqlException msqlex)
             {
                 throw;
+            }
+        }
+
+        private string ParseToSQLValues(object value)
+        {
+            if(value.Equals(typeof(string)))
+            {
+                string output = value == null ? "NULL" : "'" + value + "'";
+                return output;
+            }
+            else if(value.Equals(typeof(int)))
+            {
+                int a = (int) value;
+                string output = value == null ? "NULL" : a.ToString();
+                return output;
+            }
+            else if(value.Equals(typeof(bool)))
+            {
+                int a = (bool)value ? 1 : 0;
+                string output = value == null ? "NULL" : a.ToString();
+                return output;
+            }
+            else
+            {
+                throw new ArgumentException("eins Enton ist verwirrt");
             }
         }
     } // endclass
