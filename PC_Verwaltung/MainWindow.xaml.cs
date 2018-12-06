@@ -42,7 +42,7 @@ namespace PC_Verwaltung
                     MessageBoxResult r1 = MessageBox.Show("Auf dem Server wurde keine Datenbank gefunden.\nWollen sie diese erstellen?", "Fehler beim Zugriff auf die Datenbank", MessageBoxButton.YesNo, MessageBoxImage.Error);
                     if (r1 == MessageBoxResult.Yes)
                     {
-                        //Methode: Erstellen der Datenbank
+                        database.CreateDatabase();
                     }
                     else
                     {

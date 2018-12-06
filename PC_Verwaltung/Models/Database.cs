@@ -76,6 +76,7 @@ namespace PC_Verwaltung
                 {
                     Reader.Read();
                     User u = new User(Reader.GetString("name"), Reader.GetString("surname"), Reader.GetString("username"), Reader.GetString("email"), Reader.GetString("password"), false);
+                    MessageBox.Show(u.password);
                     connection.Close();
                     return u;
                 }
