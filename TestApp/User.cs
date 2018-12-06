@@ -8,8 +8,6 @@ namespace TestApp
 {
     public class User
     {
-        public class User
-        {
             public string name { get; private set; }
 
             public string surname { get; private set; }
