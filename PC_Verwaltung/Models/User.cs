@@ -8,7 +8,13 @@ namespace PC_Verwaltung
 {
     public class User
     {
+        public string name { get; private set; }
+
+        public string surname { get; private set; }
+
         public string username { get; private set;}
+
+        public string email { get; private set; }
 
         public string password { get; private set; }
 
@@ -40,16 +46,22 @@ namespace PC_Verwaltung
         /// <param name="username">Der Username des Users</param>
         /// <param name="password">Das Passwort (gehasht von der DB oder im Klartext von der Nutzereingabe)</param>
         /// <param name="hashPassword">true falls das PW gehast werden muss, false falls das PW bereits gehasht ist.</param>
-        public User(string username, string password, Boolean hashPassword)
+        public User(string name, string surname, string username, string email, string password, Boolean hashPassword)
         {
             if(hashPassword)
             {
+                this.name = name;
+                this.surname = surname;
                 this.username = username;
+                this.email = email;
                 this.password = sha256(password);
             }
             else
             {
+                this.name = name;
+                this.surname = surname;
                 this.username = username;
+                this.email = email;
                 this.password = password;
             }
         }

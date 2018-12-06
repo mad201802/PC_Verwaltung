@@ -39,6 +39,11 @@ namespace PC_Verwaltung
             InitializeComponent();
             DataContext = this;
             card_reveal_pw.Visibility = Visibility.Collapsed;
+
+            this.Activate();
+
+            Loaded += (sender, e) =>
+            MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
 
         private void Grid_KeyDown(object sender, KeyEventArgs e)
@@ -96,7 +101,14 @@ namespace PC_Verwaltung
                 {
                     if(pb_password.Password == pb_passwordconfirm.Password)
                     {
-                        MainDashboardWindow dashboard = new MainDashboardWindow(new User("Test", "password", false));
+                        MainDashboardWindow dashboard = new MainDashboardWindow(new User(name, surname, username, email, User.sha256(pb_password.Password)                                                      , true));
+                        dashboard.Show();
+                        this.Close();
+                    }
+                    else
+                    {
+                        tb_notification.Foreground = Brushes.Red;
+                        tb_notification.Text = "Die Passwörter stimmen nicht überein!";
                     }
                 }
                 else

@@ -66,7 +66,6 @@ namespace PC_Verwaltung
 
                     break;
             }
-
             Loaded += (sender, e) =>
             MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }

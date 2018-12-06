@@ -6,55 +6,43 @@
         xmlns:local="clr-namespace:PC_Verwaltung.Dasboard"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d" Height="600" Width="1080" Foreground="White" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
-    <Window.Resources>
-        <Storyboard x:Key="OpenMenu">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
-                <EasingDoubleKeyFrame KeyTime="0" Value="70"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Key="CloseMenu">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
-                <EasingDoubleKeyFrame KeyTime="0" Value="200"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="70"/>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-    </Window.Resources>
-    <Window.Triggers>
-        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
-            <BeginStoryboard Storyboard="{StaticResource OpenMenu}"/>
-        </EventTrigger>
-        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
-            <BeginStoryboard Storyboard="{StaticResource CloseMenu}"/>
-        </EventTrigger>
-    </Window.Triggers>
     <Grid Background="#FFDEDEDE">
-        <Grid x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="540" Width="1010"/>
-        <Grid Height="60" VerticalAlignment="Top" Background="#FF5C99D6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="49*"/>
+            <ColumnDefinition Width="491*"/>
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="GridMain" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="540" Width="914" Grid.Column="1"/>
+        <Grid Height="60" VerticalAlignment="Top" Background="#FF5C99D6" Grid.ColumnSpan="2">
             <Grid.Effect>
                 <DropShadowEffect BlurRadius="1" ShadowDepth="1" Color="#FFACACAC"/>
             </Grid.Effect>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock Name="displayname" VerticalAlignment="Center" FontSize="16"/>
-                <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="20">
+                <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="0,0" Width="56">
                     <StackPanel Width="150">
-                        <Button Content="Einstellungen"/>
-                        <Button Content="Mein Account"/>
-                        <Button Content="Hilfe"/>
+                        <Button x:Name="btn_settigs" Content="Einstellungen"/>
+                        <Button x:Name="btn_myaccount" Content="Mein Account"/>
+                        <Button x:Name="btn_help" Content="Hilfe"/>
                         <Separator/>
-                        <Button Content="Ausloggen"/>
-                        <Button Content="Schließen"/>
+                        <Button x:Name="btn_logout" Content="Ausloggen"/>
+                        <Button x:Name="btn_close" Content="Schließen" Click="Btn_close_Click"/>
                     </StackPanel>
                 </materialDesign:PopupBox>
             </StackPanel>
-            <TextBlock Name="current_topic" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">PC Manager</TextBlock>
+            <TextBlock Name="current_topic" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Dashboard</TextBlock>
         </Grid>
-        <Grid x:Name="GridMenu" Width="70" HorizontalAlignment="Left" Background="#FF31577E">
+        <materialDesign:Chip
+            Name ="chip_currentuser" Content="" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" FontSize="16" Margin="793.4,10,58,545" Height="45" Width="131">
+            <materialDesign:Chip.Icon>
+                <materialDesign:PackIcon Kind="User"/>
+            </materialDesign:Chip.Icon>
+        </materialDesign:Chip>
+        <Grid x:Name="GridMenu" Width="166" HorizontalAlignment="Left" Background="#FF31577E" Grid.ColumnSpan="2">
             <Grid.Effect>
                 <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="#FFAEAEAE"/>
             </Grid.Effect>
             <StackPanel>
-                <Grid Height="60" Background="White" RenderTransformOrigin="0.5,0.5" Margin="0,0,0.4,0">
+                <Grid Height="97" Background="#497aab" RenderTransformOrigin="0.5,0.5" Margin="0,0,0.4,0">
                     <Grid.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -63,10 +51,7 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </Grid.RenderTransform>
-                    <Button x:Name="ButtonOpenMenu" Height="60" Width="60" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF31577E" Click="ButtonOpenMenu_Click">
-                        <materialDesign:PackIcon Kind="Menu" Width="25" Height="25"/>
-                    </Button>
-                    <Button x:Name="ButtonCloseMenu" Visibility="Collapsed" Height="60" Width="60" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF31577E" Click="ButtonCloseMenu_Click">
+                    <Button x:Name="ButtonCloseMenu" Visibility="Collapsed" Height="60" Width="60" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF31577E">
                         <materialDesign:PackIcon Kind="ArrowLeft" Width="25" Height="25"/>
                     </Button>
                 </Grid>
@@ -77,8 +62,16 @@
                             <TextBlock Text="Dashboard" VerticalAlignment="Center" Margin="20 10"/>
                         </StackPanel>
                     </ListViewItem>
+                    <ListViewItem Name="item1" Height="60">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Settings" Height="25" Width="25" Margin="10"/>
+                            <TextBlock Text="Test Item" VerticalAlignment="Center" Margin="20 10"/>
+                        </StackPanel>
+                    </ListViewItem>
                 </ListView>
             </StackPanel>
         </Grid>
+        <materialDesign:PackIcon VerticalAlignment="Center" HorizontalAlignment="Center"  Foreground="LightGray" Kind="Computer" Height="60" Width="60" Margin="54,0,966,540" Grid.ColumnSpan="2"/>
+        <TextBlock Text="PC Verwaltung" TextAlignment="Center" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="0,60,914,515" Width="166"/>
     </Grid>
 </Window>
