@@ -30,17 +30,39 @@ namespace PC_Verwaltung.Dasboard
             chip_currentuser.Content = current.username;
         }
 
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                if (e.ChangedButton == MouseButton.Left)
+                    this.DragMove();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
         private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            GridMain.Children.Clear();
+            MainGrid.Children.Clear();
+
+            int index = ListViewMenu.SelectedIndex;
+            MoveCursorMenu(index);
 
             switch (((ListViewItem)((ListView)sender).SelectedItem).Name)
             {
-                case "ItemHome":
-                    
+                case "dashboard":
+                    current_topic.Text = "Dashboard";
+                   //Change the child for Dashboard 
                     break;
-                case "ItemCreate":
-                    
+                case "item1":
+                    current_topic.Text = "Example Item 1";
+                    //Change the child for Dashboard 
+                    break;
+                case "item2":
+                    current_topic.Text = "Example Items 2";
+                    //Change the child for Dashboard 
                     break;
                 default:
                     break;
@@ -54,6 +76,11 @@ namespace PC_Verwaltung.Dasboard
             {
                 Environment.Exit(1);
             }
+        }
+
+        private void MoveCursorMenu(int index)
+        {
+            MenuCursor.Margin = new Thickness(0, (100 + (60 * index)), 0, 0);
         }
     }
 }

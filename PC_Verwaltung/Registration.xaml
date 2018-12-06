@@ -75,7 +75,7 @@
             </TextBox>
             <materialDesign:PackIcon Kind="Email" Margin="4,147,0,0" Foreground="Gray" RenderTransformOrigin="0.75,-0.5"/>
             
-            <PasswordBox Name="pb_password" materialDesign:HintAssist.Hint="Passwort" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25,168,0,0" Width="246" PasswordChanged="Pb_password_PasswordChanged" />
+            <PasswordBox Name="pb_password" materialDesign:HintAssist.Hint="Passwort" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25,168,0,0" Width="246" PasswordChanged="Pb_password_PasswordChanged" LostFocus="Pb_password_LostFocus" />
             <materialDesign:PackIcon Kind="Lock" Margin="4,191,0,0" Foreground="Gray" RenderTransformOrigin="0.563,1.338"/>
             <materialDesign:PackIcon Name="password_eye" Foreground="Gray" Kind="EyeOff" Margin="250,186,0,0" RenderTransformOrigin="0.075,0.138" MouseDown="click_eye_password"/>
             <PasswordBox Name="pb_passwordconfirm" materialDesign:HintAssist.Hint="Passwort wiederholen" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontSize="14" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="25,212,0,0" Width="246"/>

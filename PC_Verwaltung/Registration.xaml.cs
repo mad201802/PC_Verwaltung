@@ -97,7 +97,7 @@ namespace PC_Verwaltung
             //Check Username in Database
             if (!(string.IsNullOrEmpty(name) | string.IsNullOrEmpty(surname) | string.IsNullOrEmpty(username)))
             {
-                if (pb_password.Password.Any(ch => !Char.IsLetterOrDigit(ch)))
+                if (pb_password.Password.Any(ch => Char.IsLetterOrDigit(ch)) || pb_password.Password.Any(ch => Char.IsSymbol(ch)))
                 {
                     if(pb_password.Password == pb_passwordconfirm.Password)
                     {
@@ -133,6 +133,10 @@ namespace PC_Verwaltung
             }
         }
 
-        
+        private void Pb_password_LostFocus(object sender, RoutedEventArgs e)
+        {
+            card_reveal_pw.Visibility = Visibility.Hidden;
+            password_eye.Kind = PackIconKind.EyeOff;
+        }
     }
 }
