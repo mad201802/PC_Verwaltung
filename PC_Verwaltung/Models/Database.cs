@@ -75,8 +75,13 @@ namespace PC_Verwaltung
                 if (Reader.HasRows)
                 {
                     Reader.Read();
-                    User u = new User(Reader.GetString("name"), Reader.GetString("surname"), Reader.GetString("username"), Reader.GetString("email"), Reader.GetString("password"), false);
-                    MessageBox.Show(u.password);
+                    string name, surname, password, email;
+                    name = Reader.GetValue(4) != DBNull.Value ? Reader.GetString(4): null;
+                    surname = Reader.GetValue(5) != DBNull.Value ? Reader.GetString(5) : null;
+                    password = Reader.GetValue(1) != DBNull.Value ? Reader.GetString(2) : null;
+                    email = Reader.GetValue(3) != DBNull.Value ? Reader.GetString(3) : null;
+                    username = Reader.GetValue(0) != DBNull.Value ? Reader.GetString(1) : null;
+                    User u = new User(name, surname, username, email, password, false);
                     connection.Close();
                     return u;
                 }
