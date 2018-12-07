@@ -104,33 +104,40 @@ namespace PC_Verwaltung
         /// <returns></returns>
         public bool createNewUser(User NewUser)
         {
-            //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
-            if (connection.State == System.Data.ConnectionState.Closed)
+            try
             {
-                connection.Open();
+                //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+                //validierung
+                if (NewUser.username == null || NewUser.password == null)
+                {
+                    throw new ArgumentException("Username or Password is null!");
+                }
+
+                // Parsing zu SQL
+                string username, password, name, surname, email;
+                username = NewUser.username;
+                password = NewUser.password;
+                name = ParseToSQLValues(NewUser.name);
+                surname = ParseToSQLValues(NewUser.surname);
+                email = ParseToSQLValues(NewUser.email);
+
+                //erstellen des SQL statements
+                command.CommandText = "INSERT INTO user(username, password, name, surname, email)" +
+                "VALUES('" + username + "', '" + password + "', " + name + ", " + surname + ", " + email + ");";
+                command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
+                command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
+
+                connection.Close();
+                return true;
             }
-            //validierung
-            if(NewUser.username == null || NewUser.password == null)
+            catch (Exception ex)
             {
-                throw new ArgumentException("Username or Password is null!");
+                return false;
             }
-
-            // Parsing zu SQL
-            string username, password, name, surname, email;
-            username = NewUser.username;
-            password = NewUser.password;
-            name = ParseToSQLValues(NewUser.name);
-            surname = ParseToSQLValues(NewUser.surname); 
-            email = ParseToSQLValues(NewUser.email); 
-
-            //erstellen des SQL statements
-            command.CommandText = "INSERT INTO user(username, password, name, surname, email)" +
-            "VALUES('" + username + "', '" + password + "', " + name + ", " + surname + ", " + email + ");";
-            command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
-            command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
-
-            connection.Close();
-            return true;
         }
 
         /// <summary>

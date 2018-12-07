@@ -97,17 +97,24 @@ namespace PC_Verwaltung
             //Check Username in Database
             if (!(string.IsNullOrEmpty(name) | string.IsNullOrEmpty(surname) | string.IsNullOrEmpty(username)))
             {
-                if (pb_password.Password.Any(ch => Char.IsLetterOrDigit(ch)) || pb_password.Password.Any(ch => Char.IsSymbol(ch)))
+                if (pb_password.Password.Any(ch => !Char.IsLetterOrDigit(ch)) && pb_password.Password.Any(ch => !Char.IsSymbol(ch)))
                 {
                     if(pb_password.Password == pb_passwordconfirm.Password)
                     {
                         if (cb_nb.IsChecked == true)
                         {
                             User newUser = new User(name, surname, username, email, pb_password.Password, true);
-                            MainWindow.database.createNewUser(newUser);
-                            MainDashboardWindow dashboard = new MainDashboardWindow(newUser);
-                            dashboard.Show();
-                            this.Close();
+                            if (MainWindow.database.createNewUser(newUser) == true)
+                            {
+                                MainDashboardWindow dashboard = new MainDashboardWindow(newUser);
+                                dashboard.Show();
+                                this.Close();
+                            }
+                            else
+                            {
+                                tb_notification.Foreground = Brushes.Red;
+                                tb_notification.Text = "Den Username oder die Email\nexistieren bereits!";
+                            }
                         }
                         else
                         {

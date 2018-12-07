@@ -28,14 +28,12 @@ namespace PC_Verwaltung.Dashboard
             this.Visibility = Visibility.Collapsed;
 
             chip_currentuser.Content = current.name + " " + current.surname;
-            chip_currentuser.Width = (current.name + " " + current.surname).ToCharArray().Length * 12;
 
             Console.WriteLine();
 
             if (string.IsNullOrEmpty(current.name + current.surname))
             {
                 chip_currentuser.Content = "Admin";
-                chip_currentuser.Width = 100;
             }
  
 
@@ -92,6 +90,18 @@ namespace PC_Verwaltung.Dashboard
         private void MoveCursorMenu(int index)
         {
             MenuCursor.Margin = new Thickness(0, (100 + (60 * index)), 0, 0);
+        }
+
+        private void Btn_logout_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow login = new MainWindow();
+            login.Show();
+            this.Close();
+        }
+
+        private void Btn_minimize_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
         }
     }
 }

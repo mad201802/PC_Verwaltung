@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Resource Include="Dashboard\favicon_dashboard.ico" />
     <Content Include="Resources\pcverwaltung.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
