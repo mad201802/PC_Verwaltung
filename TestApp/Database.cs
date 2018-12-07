@@ -117,6 +117,11 @@ namespace TestApp
                     throw new ArgumentException("Username or Password is null!");
                 }
 
+                if(UserExist(NewUser.username))
+                {
+                    throw new ArgumentException("User existiert bereits!");
+                }
+
                 // Parsing zu SQL
                 string username, password, name, surname, email;
                 username = NewUser.username;
@@ -156,8 +161,13 @@ namespace TestApp
             }
             if(newPassword == null || newPassword.Equals(string.Empty))
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Passwort ungültig!");
             }
+            if(!UserExist(currentUser))
+            {
+                throw new ArgumentException("User nicht gefunden!");
+            }
+
             command.CommandText = "UPDATE user SET password = '" + newPassword + "' WHERE username = '" + currentUser.username + "';";
             command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
             int statusCode = command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
@@ -192,6 +202,10 @@ namespace TestApp
             {
                 throw new ArgumentException("Username or Password is null!");
             }
+            if(!UserExist(user))
+            {
+                throw new ArgumentException("User nicht gefunden!");
+            }
 
             // Parsing zu SQL
             string name, surname, email;
@@ -213,7 +227,29 @@ namespace TestApp
 
         public bool deleteUser(User user)
         {
-            throw new MissingMethodException("not yet implemented");
+            //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            //validierung
+            if (user.username == null || user.password == null)
+            {
+                throw new ArgumentException("Username or Password is null!");
+            }
+            if (!UserExist(user))
+            {
+                throw new ArgumentException("User nicht gefunden!");
+            }
+
+            //erstellen des SQL statements
+            command.CommandText = "DELETE user" +
+                "' WHERE username = '" + user.username + "';";
+            command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
+            int result = command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
+
+            connection.Close();
+            return result == 1;
         }
 
         /// <summary>
