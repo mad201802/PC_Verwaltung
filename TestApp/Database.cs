@@ -104,45 +104,38 @@ namespace TestApp
         /// <returns></returns>
         public bool createNewUser(User NewUser)
         {
-            try
+            //validierung
+            if (NewUser.username == null || NewUser.password == null)
             {
-                //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
-                if (connection.State == System.Data.ConnectionState.Closed)
-                {
-                    connection.Open();
-                }
-                //validierung
-                if (NewUser.username == null || NewUser.password == null)
-                {
-                    throw new ArgumentException("Username or Password is null!");
-                }
-
-                if(UserExist(NewUser.username))
-                {
-                    throw new ArgumentException("User existiert bereits!");
-                }
-
-                // Parsing zu SQL
-                string username, password, name, surname, email;
-                username = NewUser.username;
-                password = NewUser.password;
-                name = ParseToSQLValues(NewUser.name);
-                surname = ParseToSQLValues(NewUser.surname);
-                email = ParseToSQLValues(NewUser.email);
-
-                //erstellen des SQL statements
-                command.CommandText = "INSERT INTO user(username, password, name, surname, email)" +
-                "VALUES('" + username + "', '" + password + "', " + name + ", " + surname + ", " + email + ");";
-                command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
-                command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
-
-                connection.Close();
-                return true;
+                throw new ArgumentException("Username or Password is null!");
             }
-            catch (Exception ex)
+
+            if(UserExist(NewUser.username))
             {
-                return false;
+                throw new ArgumentException("User existiert bereits!");
             }
+
+            // Parsing zu SQL
+            string username, password, name, surname, email;
+            username = NewUser.username;
+            password = NewUser.password;
+            name = ParseToSQLValues(NewUser.name);
+            surname = ParseToSQLValues(NewUser.surname);
+            email = ParseToSQLValues(NewUser.email);
+
+            //erstellen des SQL statements
+            command.CommandText = "INSERT INTO user(username, password, name, surname, email)" +
+            "VALUES('" + username + "', '" + password + "', " + name + ", " + surname + ", " + email + ");";
+            //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
+            int result = command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
+
+            connection.Close();
+            return result == 1;
         }
 
         /// <summary>
