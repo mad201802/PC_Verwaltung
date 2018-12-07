@@ -20,9 +20,13 @@ namespace TestApp
         static void Main(string[] args)
         {
 
+
+            testSoftware();
+
+
             //testDatabaseCreation();
 
-
+            /*
             string dirName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PC_verwaltung");
             string fileName = Path.Combine(dirName, "config.txt");
             
@@ -39,10 +43,12 @@ namespace TestApp
 
             File.WriteAllLines(fileName, lines);
 
-
+            
 
         Console.WriteLine(fileName);
             Process.Start(dirName);
+
+            */
             #region database testing
             /*
             //config
@@ -79,7 +85,11 @@ namespace TestApp
         }
 
 
-
+        static void testSoftware()
+        {
+            SoftwareInformation SI = new SoftwareInformation();
+            SI.gatherInformation();
+        }
 
         static void testHardware()
         {
