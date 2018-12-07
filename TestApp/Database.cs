@@ -147,11 +147,7 @@ namespace TestApp
         /// <returns></returns>
         public bool changePassword(User currentUser, string newPassword)
         {
-            //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection.Open();
-            }
+            
             if(newPassword == null || newPassword.Equals(string.Empty))
             {
                 throw new ArgumentException("Passwort ungültig!");
@@ -162,6 +158,11 @@ namespace TestApp
             }
 
             command.CommandText = "UPDATE user SET password = '" + newPassword + "' WHERE username = '" + currentUser.username + "';";
+            //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
             command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
             int statusCode = command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
 
@@ -185,11 +186,7 @@ namespace TestApp
         /// <returns>true wenn erfolg</returns>
         public bool updateUser(User user)
         {
-            //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection.Open();
-            }
+            
             //validierung
             if (user.username == null || user.password == null)
             {
@@ -211,6 +208,13 @@ namespace TestApp
                 "SET name = '" + name + "' , surname = '" + surname + "' , email = '" + email + 
                 "' WHERE username = '" + user.username + 
                 " AND password = '" + user.password + "';";
+
+            //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
             command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
             int result = command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
 
@@ -220,11 +224,6 @@ namespace TestApp
 
         public bool deleteUser(User user)
         {
-            //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection.Open();
-            }
             //validierung
             if (user.username == null || user.password == null)
             {
@@ -236,8 +235,14 @@ namespace TestApp
             }
 
             //erstellen des SQL statements
-            command.CommandText = "DELETE user" +
-                "' WHERE username = '" + user.username + "';";
+            command.CommandText = "DELETE FROM user WHERE username = " + ParseToSQLValues(user.username) + ";";
+
+            //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
             command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
             int result = command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
 
