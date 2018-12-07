@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ComputerInformation
 {
-    class ComputerInformation
+    class HardwareInformation
     {
         public int CPUcount { get; private set; } = 0;
         public int CPUcores { get; private set; } = 0;
@@ -36,7 +36,7 @@ namespace ComputerInformation
             GetMotherboardDetails();
         }
 
-        /// <summary> [!Zukünftige Funktion!]
+        /// <summary>
         /// Sammelt:
         ///     Anzahl der CPUs (normale Desktops/Laptops = 1)
         ///     Anzahl der physichen Kerne (1-18)
@@ -70,7 +70,7 @@ namespace ComputerInformation
             }
         }
 
-        /// <summary> [!Zukünftige Funktion!]
+        /// <summary>
         /// Sammelt:
         ///     Hersteller
         ///     Modelbezeichnung
@@ -88,7 +88,7 @@ namespace ComputerInformation
             }
         }
 
-        /// <summary> [!Zukünftige Funktion!]
+        /// <summary>
         /// Sammelt: 
         ///     Gesammt Größe des RAMs in KB und GB
         ///     Größe und Taktraten der einzelnen DIMs
@@ -112,7 +112,7 @@ namespace ComputerInformation
             ramDimSizes = l_ramDimSizes.ToArray();
         }
 
-        /// <summary> [!Zukünftige Funktion!]
+        /// <summary>
         /// Sammelt:
         ///     Hersteller
         ///     Modelbezeichnung
@@ -127,7 +127,7 @@ namespace ComputerInformation
         }
 
 
-        /// <summary> [!Zukünftige Funktion!]
+        /// <summary>
         /// Convertiert den Statuscode der architektur in ein Lesbaren string.
         /// </summary>
         /// <param name="architectureNumber"></param>

@@ -89,5 +89,11 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ComputerInformation\ComputerInformation.csproj">
+      <Project>{87d88c45-56e8-4bd8-a525-c6ef6f71d387}</Project>
+      <Name>ComputerInformation</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
