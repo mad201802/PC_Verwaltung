@@ -11,9 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using PC_Verwaltung.Dasboard.Canvas;
 
-namespace PC_Verwaltung.Dasboard
+namespace PC_Verwaltung.Dashboard
 {
     /// <summary>
     /// Interaktionslogik für MainDashboardWindow.xaml
@@ -29,12 +28,17 @@ namespace PC_Verwaltung.Dasboard
             this.Visibility = Visibility.Collapsed;
 
             chip_currentuser.Content = current.name + " " + current.surname;
-            if(string.IsNullOrEmpty(current.name + current.surname))
+            chip_currentuser.Width = (current.name + " " + current.surname).ToCharArray().Length * 12;
+
+            Console.WriteLine();
+
+            if (string.IsNullOrEmpty(current.name + current.surname))
             {
                 chip_currentuser.Content = "Admin";
+                chip_currentuser.Width = 100;
             }
+ 
 
-            MainGrid.Children.Add(new DashboardUC());
 
         }
 
@@ -61,7 +65,7 @@ namespace PC_Verwaltung.Dasboard
                 case "dashboard":
                     current_topic.Text = "Dashboard"; 
                     MainGrid.Children.Clear();
-                    MainGrid.Children.Add(new DashboardUC());
+                    //MainGrid.Children.Add(new DashboardUC());
                     break;
                 case "item1":
                     current_topic.Text = "Example Item 1";
@@ -71,7 +75,7 @@ namespace PC_Verwaltung.Dasboard
                     break;
                 default:
                     MainGrid.Children.Clear();
-                    MainGrid.Children.Add(new DashboardUC());
+                    //MainGrid.Children.Add(new DashboardUC());
                     break;
             }
         }

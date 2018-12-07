@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using MaterialDesignThemes.Wpf;
-using PC_Verwaltung.Dasboard;
+using PC_Verwaltung.Dashboard;
 
 namespace PC_Verwaltung
 {
