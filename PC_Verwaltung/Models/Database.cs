@@ -346,22 +346,22 @@ namespace PC_Verwaltung
             MySqlDataReader Reader;
             command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
             Reader = command.ExecuteReader();
-            int status = -5;
+            int status = (int) TableHeatlh.initatiltionValue;
             if(Reader.HasRows)
             {
                 Reader.Read();
                 if(Reader.FieldCount == 8)
                 {
-                    status = 0;
+                    status = (int)TableHeatlh.OK;
                 }
                 else
                 {
-                    status = -1;
+                    status = (int)TableHeatlh.columnsMismatch;
                 }
             }
             else
             {
-                status = -2;
+                status = (int)TableHeatlh.tableIsEmpty;
             }
             connection.Close();
             return status;
