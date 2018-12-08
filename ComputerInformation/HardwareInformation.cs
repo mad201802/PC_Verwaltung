@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ComputerInformation
 {
-    class HardwareInformation
+    public class HardwareInformation
     {
         public int CPUcount { get; private set; } = 0;
         public int CPUcores { get; private set; } = 0;

@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Management;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using ComputerInformation;
 
 namespace ComputerInformation
 {
-    class SoftwareInformation
+    public class SoftwareInformation
     {
-        public string[] Users { get; private set; }
+        public WindowsUser[] Users { get; private set; }
         public long PagefileSize { get; private set; }
         public string PagefileLocation { get; private set; }
         public string OSName { get; private set; }
@@ -29,10 +31,14 @@ namespace ComputerInformation
         }
         public void GetUserDetails()
         {
+            List<WindowsUser> WindowsUserList = new List<WindowsUser>();
+            WindowsUser a;
             foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_UserAccount").Get())
             {
-                OSName = item["Name"].ToString();
+                a = new WindowsUser(item["Name"].ToString(), item["Domain"].ToString(), !(bool)item["Disabled"], (bool)item["LocalAccount"]);
+                WindowsUserList.Add(a);
             }
+            Users = WindowsUserList.ToArray();
         }
 
         public void GetPagefileDetails()
@@ -77,12 +83,8 @@ namespace ComputerInformation
                     BIOSManufacturer = (string)mo["Manufacturer"];
                     
                 }
-
-                Console.WriteLine(sb.ToString());
-
             }
         }
-
     
     }
 }
