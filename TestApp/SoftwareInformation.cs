@@ -5,12 +5,13 @@ using System.Management;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using TestApp.Models;
 
 namespace TestApp
 {
     class SoftwareInformation
     {
-        public string[] Users { get; private set; }
+        public WindowsUser[] Users { get; private set; }
         public long PagefileSize { get; private set; }
         public string PagefileLocation { get; private set; }
         public string OSName { get; private set; }
@@ -30,10 +31,12 @@ namespace TestApp
         }
         public void GetUserDetails()
         {
-            List<string> WindowsUserList = new List<string>();
+            List<WindowsUser> WindowsUserList = new List<WindowsUser>();
+            WindowsUser a;
             foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_UserAccount").Get())
             {
-                WindowsUserList.Add(item["Name"].ToString());
+                a = new WindowsUser(item["Name"].ToString(), item["Domain"].ToString(), !(bool)item["Disabled"], (bool)item["LocalAccount"]);
+                WindowsUserList.Add(a);
             }
             Users = WindowsUserList.ToArray();
         }
@@ -80,9 +83,6 @@ namespace TestApp
                     BIOSManufacturer = (string)mo["Manufacturer"];
                     
                 }
-
-                Console.WriteLine(sb.ToString());
-
             }
         }
     
