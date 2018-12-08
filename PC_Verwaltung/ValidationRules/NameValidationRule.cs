@@ -16,7 +16,7 @@ namespace ValidationRules
         {
             if (!string.IsNullOrEmpty((string)value))
             {
-                if (value != null && !((string)value).Contains("'") && !((string)value).Contains(" ") && ((string) value).Length >= 3)
+                if (value != null && !((string)value).Contains("'") && !((string)value).Contains(" ") && ((string) value).Length >= 3 && ((string)value).Length <= 15)
                 {
 
                     return ValidationResult.ValidResult;
