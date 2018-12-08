@@ -16,7 +16,10 @@ namespace TestApp.Models
 
         public WindowsUser(string username, string domain, bool isActive, bool LocalProfile)
         {
-
+            this.Username = username;
+            this.Domain = domain;
+            this.IsActive = isActive;
+            this.LocalProfile = LocalProfile;
         }
     }
 }
