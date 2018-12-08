@@ -18,6 +18,10 @@ namespace PC_Verwaltung
         private MySqlConnection connection;
         private MySqlCommand command;
         private string server;
+
+        public enum TableHeatlh { initatiltionValue = -5,  tableIsEmpty = -2, columnsMismatch = -1, OK = 0 };
+        public enum DatabaseHeatlh { ServerNotFound = -1, DBNotFound = 0 , OK = 1 };
+
         public Database(string server, string database, string uid, string password)
         {
             this.server = server;
@@ -38,6 +42,7 @@ namespace PC_Verwaltung
                 try
                 {
                     createConnection(ConnectionString);
+                    checkTableHealth();
                     return 1;
 
                 }
@@ -280,20 +285,8 @@ namespace PC_Verwaltung
                     command.ExecuteNonQuery();
                 }
             }
-            Console.WriteLine("\nDatabase created!");
-            Console.WriteLine("Table User created!");
-            Console.WriteLine("Admin account created!");
             connection.Close();
-            Console.WriteLine("trying to connect ...");
             bool status = connect() == 1;
-            if (status)
-            {
-                Console.WriteLine("success!");
-            }
-            else
-            {
-                Console.WriteLine("failed");
-            }
         }
         private void createConnection(string ConnectionString)
         {
@@ -340,5 +333,39 @@ namespace PC_Verwaltung
                 throw new ArgumentException("eins Enton ist verwirrt");
             }
         }
+
+        public int checkTableHealth()
+        {
+            //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            command.CommandText = "SELECT * FROM user LIMIT 1;";
+            MySqlDataReader Reader;
+            command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
+            Reader = command.ExecuteReader();
+            int status = (int) TableHeatlh.initatiltionValue;
+            if(Reader.HasRows)
+            {
+                Reader.Read();
+                if(Reader.FieldCount == 8)
+                {
+                    status = (int)TableHeatlh.OK;
+                }
+                else
+                {
+                    status = (int)TableHeatlh.columnsMismatch;
+                }
+            }
+            else
+            {
+                status = (int)TableHeatlh.tableIsEmpty;
+            }
+            connection.Close();
+            return status;
+        }
+
     } // endclass
 } //endnamespace

@@ -20,7 +20,7 @@ namespace TestApp
         static void Main(string[] args)
         {
 
-
+            
             testSoftware();
 
 
@@ -61,25 +61,25 @@ namespace TestApp
             db.connect();
 
             //db.GetUser("Test");
-            User a = new User("Herbert", "1234a");
+            User a = new User("Herbert","phi", "aaaaa", "b@a.c", "123456", true);
 
-            if (!db.DoesUserExist(a))
+            if (!db.UserExist(a))
             {
                 Console.WriteLine("User does not exist");
                 Console.ReadKey();
                 
-                db.createNewUser(null, a);
+                db.createNewUser(a);
                 Console.WriteLine("User created!");
             }
             else
             {
                 Console.WriteLine("User exist!");
-                User cache = new User("cache", "New Password");
-                db.changePassword(a, cache.password);
+                db.deleteUser(a);
+                Console.WriteLine("User deleted");
             }
             */
             #endregion
-
+    
             Console.ReadKey();
 
         }
@@ -88,7 +88,7 @@ namespace TestApp
         static void testSoftware()
         {
             SoftwareInformation SI = new SoftwareInformation();
-            SI.gatherInformation();
+            SI.GetUserDetails();
         }
 
         static void testHardware()

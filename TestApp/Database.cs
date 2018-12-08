@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -34,19 +33,16 @@ namespace TestApp
         /// -1 wenn der server nicht antwortet</returns>
         public int connect()
         {
-            if(PingHost(server, 3306))
+            if (PingHost(server, 3306))
             {
                 try
                 {
                     createConnection(ConnectionString);
-                    createTable();
                     return 1;
-                    
-                    
+
                 }
                 catch (Exception ex)
                 {
-                    throw;
                     return 0;
                 }
             }
@@ -54,7 +50,7 @@ namespace TestApp
             {
                 return -1;
             }
-            
+
         }
         /// <summary>
         /// Sucht nach einem User in der Datenbank mit dem angegeben Usernamen.
@@ -79,7 +75,13 @@ namespace TestApp
                 if (Reader.HasRows)
                 {
                     Reader.Read();
-                    User u = new User("Test", "Test", Reader.GetString(1), "test@test.de", Reader.GetString(2), false);
+                    string name, surname, password, email;
+                    name = Reader.GetValue(4) != DBNull.Value ? Reader.GetString(4): null;
+                    surname = Reader.GetValue(5) != DBNull.Value ? Reader.GetString(5) : null;
+                    password = Reader.GetValue(1) != DBNull.Value ? Reader.GetString(2) : null;
+                    email = Reader.GetValue(3) != DBNull.Value ? Reader.GetString(3) : null;
+                    username = Reader.GetValue(0) != DBNull.Value ? Reader.GetString(1) : null;
+                    User u = new User(name, surname, username, email, password, false);
                     connection.Close();
                     return u;
                 }
@@ -98,26 +100,42 @@ namespace TestApp
         /// <summary>
         /// Erstellt ein neuen User in der Datenbank
         /// </summary>
-        /// <param name="currentUser">Der aktuell eingeloggte user - für admins um User hinzuzufügen --> Zukünfigte funktion</param>
-        /// <param name="newUser">Der User der erstellt werden soll.</param>
+        /// <param name="NewUser">Der User der erstellt werden soll.</param>
         /// <returns></returns>
-        public bool createNewUser(User currentUser, User newUser)
+        public bool createNewUser(User NewUser)
         {
-            //TODO: Überprüfen ob user neue User hinzufügen darf.
+            //validierung
+            if (NewUser.username == null || NewUser.password == null)
+            {
+                throw new ArgumentException("Username or Password is null!");
+            }
 
+            if(UserExist(NewUser.username))
+            {
+                throw new ArgumentException("User existiert bereits!");
+            }
+
+            // Parsing zu SQL
+            string username, password, name, surname, email;
+            username = NewUser.username;
+            password = NewUser.password;
+            name = ParseToSQLValues(NewUser.name);
+            surname = ParseToSQLValues(NewUser.surname);
+            email = ParseToSQLValues(NewUser.email);
+
+            //erstellen des SQL statements
+            command.CommandText = "INSERT INTO user(username, password, name, surname, email)" +
+            "VALUES('" + username + "', '" + password + "', " + name + ", " + surname + ", " + email + ");";
             //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
             if (connection.State == System.Data.ConnectionState.Closed)
             {
                 connection.Open();
             }
-
-            command.CommandText = "INSERT INTO user(username, password)" +
-            "VALUES('" + newUser.username + "', '" + newUser.password + "');";
             command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
-            command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
+            int result = command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
 
             connection.Close();
-            return true;
+            return result == 1;
         }
 
         /// <summary>
@@ -129,12 +147,22 @@ namespace TestApp
         /// <returns></returns>
         public bool changePassword(User currentUser, string newPassword)
         {
+            
+            if(newPassword == null || newPassword.Equals(string.Empty))
+            {
+                throw new ArgumentException("Passwort ungültig!");
+            }
+            if(!UserExist(currentUser))
+            {
+                throw new ArgumentException("User nicht gefunden!");
+            }
+
+            command.CommandText = "UPDATE user SET password = '" + newPassword + "' WHERE username = '" + currentUser.username + "';";
             //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
             if (connection.State == System.Data.ConnectionState.Closed)
             {
                 connection.Open();
             }
-            command.CommandText = "UPDATE user SET password = '" + newPassword + "' WHERE username = '" + currentUser.username + "';";
             command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
             int statusCode = command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
 
@@ -148,6 +176,78 @@ namespace TestApp
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Ändert Stammdaten des Users in der Datenbank
+        /// ändert NICHT Username und Password!
+        /// </summary>
+        /// <param name="user">der zu updatened User</param>
+        /// <returns>true wenn erfolg</returns>
+        public bool updateUser(User user)
+        {
+            
+            //validierung
+            if (user.username == null || user.password == null)
+            {
+                throw new ArgumentException("Username or Password is null!");
+            }
+            if(!UserExist(user))
+            {
+                throw new ArgumentException("User nicht gefunden!");
+            }
+
+            // Parsing zu SQL
+            string name, surname, email;
+            name = ParseToSQLValues(user.name);
+            surname = ParseToSQLValues(user.surname);
+            email = ParseToSQLValues(user.email);
+
+            //erstellen des SQL statements
+            command.CommandText = "UPDATE user"+
+                "SET name = '" + name + "' , surname = '" + surname + "' , email = '" + email + 
+                "' WHERE username = '" + user.username + 
+                " AND password = '" + user.password + "';";
+
+            //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
+            int result = command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
+
+            connection.Close();
+            return result == 1;
+        }
+
+        public bool deleteUser(User user)
+        {
+            //validierung
+            if (user.username == null || user.password == null)
+            {
+                throw new ArgumentException("Username or Password is null!");
+            }
+            if (!UserExist(user))
+            {
+                throw new ArgumentException("User nicht gefunden!");
+            }
+
+            //erstellen des SQL statements
+            command.CommandText = "DELETE FROM user WHERE username = " + ParseToSQLValues(user.username) + ";";
+
+            //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
+            int result = command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
+
+            connection.Close();
+            return result == 1;
         }
 
         /// <summary>
@@ -201,7 +301,7 @@ namespace TestApp
             IEnumerable<string> commandStrings = Regex.Split(script, @"^\s*GO\s*$",
                                      RegexOptions.Multiline | RegexOptions.IgnoreCase);
 
-            if(connection.State == System.Data.ConnectionState.Closed)
+            if (connection.State == System.Data.ConnectionState.Closed)
             {
                 createConnection(ConnectionStringWithoutDatabase);
             }
@@ -229,26 +329,7 @@ namespace TestApp
                 Console.WriteLine("failed");
             }
         }
-
-        public void createTable()
-        {
-            if(connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection.Open();
-            }
-
-            command.CommandText = "SHOW TABLES LIKE 'user';";
-            command.Prepare();
-            MySqlDataReader reader = command.ExecuteReader();
-            if(!reader.HasRows)
-            {
-                connection.Close();
-                CreateDatabase();
-            }
-            connection.Close();
-        }
-
-        private void createConnection(string ConnectionString) 
+        private void createConnection(string ConnectionString)
         {
             try
             {
@@ -261,5 +342,37 @@ namespace TestApp
                 throw;
             }
         }
-    }
-}
+
+        /// <summary>
+        /// Parst die Werte in ihre entspechende SQL werte. 
+        /// Unterstüzt string, int, bool
+        /// </summary>
+        /// <param name="value">wert der convertiert werden soll als string, int oder bool</param>
+        /// <returns>Das entsprechende SQL value als string für INSERT Statement</returns>
+        private string ParseToSQLValues(object value)
+        {
+            if(value.GetType().Equals(typeof(string)))
+            {
+                string a = (string)value;
+                string output = value == null ? "NULL" : "'" + a + "'";
+                return output;
+            }
+            else if(value.GetType().Equals(typeof(int)))
+            {
+                int a = (int) value;
+                string output = value == null ? "NULL" : a.ToString();
+                return output;
+            }
+            else if(value.GetType().Equals(typeof(bool)))
+            {
+                int a = (bool)value ? 1 : 0;
+                string output = value == null ? "NULL" : a.ToString();
+                return output;
+            }
+            else
+            {
+                throw new ArgumentException("eins Enton ist verwirrt");
+            }
+        }
+    } // endclass
+} //endnamespace

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Management;
-using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestApp
+namespace ComputerInformation
 {
     class SoftwareInformation
     {
@@ -30,12 +29,10 @@ namespace TestApp
         }
         public void GetUserDetails()
         {
-            List<string> WindowsUserList = new List<string>();
             foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_UserAccount").Get())
             {
-                WindowsUserList.Add(item["Name"].ToString());
+                OSName = item["Name"].ToString();
             }
-            Users = WindowsUserList.ToArray();
         }
 
         public void GetPagefileDetails()
@@ -85,6 +82,7 @@ namespace TestApp
 
             }
         }
+
     
     }
 }
