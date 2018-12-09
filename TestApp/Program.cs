@@ -21,7 +21,7 @@ namespace TestApp
         {
 
             
-            testSoftware();
+            //testSoftware();
 
 
             //testDatabaseCreation();
@@ -50,7 +50,7 @@ namespace TestApp
 
             */
             #region database testing
-            /*
+            
             //config
             string server = "127.0.0.1";
             string database = "pc_verwaltung";
@@ -77,7 +77,7 @@ namespace TestApp
                 db.deleteUser(a);
                 Console.WriteLine("User deleted");
             }
-            */
+            
             #endregion
     
             Console.ReadKey();
