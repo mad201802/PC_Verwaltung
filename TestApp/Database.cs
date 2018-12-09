@@ -61,9 +61,6 @@ namespace TestApp
         {
             try
             {
-                username = username.Replace("'","");
-                username = username.Replace("1=1", "");
-
                 //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
                 if (connection.State == System.Data.ConnectionState.Closed)
                 {
@@ -85,11 +82,11 @@ namespace TestApp
                         password = Reader.GetValue(Reader.GetOrdinal("password")) != DBNull.Value ? Reader.GetString(Reader.GetOrdinal("password")) : null;
 
                         try { name = Reader.GetValue(Reader.GetOrdinal("name")) != DBNull.Value ? Reader.GetString(Reader.GetOrdinal("name")) : null; }
-                        catch (Exception) {}
+                        catch (IndexOutOfRangeException) {}
                         try { surname = Reader.GetValue(Reader.GetOrdinal("surname")) != DBNull.Value ? Reader.GetString(Reader.GetOrdinal("surname")) : null; }
-                        catch (Exception) {}
+                        catch (IndexOutOfRangeException) {}
                         try { email = Reader.GetValue(Reader.GetOrdinal("email")) != DBNull.Value ? Reader.GetString(Reader.GetOrdinal("email")) : null; }
-                        catch (Exception) {}
+                        catch (IndexOutOfRangeException) {}
 
                         User u = new User(name, surname, username, email, password, false);
                         connection.Close();

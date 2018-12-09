@@ -74,8 +74,8 @@ namespace TestApp
             else
             {
                 Console.WriteLine("User exist!");
-                db.deleteUser(a);
-                Console.WriteLine("User deleted");
+                Console.WriteLine(  db.GetUser("aaaaa").name);
+
             }
             
             #endregion
