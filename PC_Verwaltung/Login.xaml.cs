@@ -19,15 +19,15 @@ using PC_Verwaltung.Dashboard;
 namespace PC_Verwaltung
 {
     /// <summary>
-    /// Interaktionslogik für MainWindow.xaml
+    /// Interaktionslogik für Login.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Login : Window
     {
 
         public static Database database = new Database("localhost", "pc_verwaltung", "root", "");
         public static User currentUser;
 
-        public MainWindow()
+        public Login()
         {
             InitializeComponent();
             card_reveal_pw.Visibility = Visibility.Collapsed;

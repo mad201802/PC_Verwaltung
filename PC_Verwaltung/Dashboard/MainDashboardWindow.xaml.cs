@@ -94,7 +94,7 @@ namespace PC_Verwaltung.Dashboard
 
         private void Btn_logout_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow login = new MainWindow();
+            Login login = new Login();
             login.Show();
             this.Close();
         }
