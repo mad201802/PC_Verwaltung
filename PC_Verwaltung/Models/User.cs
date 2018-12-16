@@ -35,23 +35,17 @@ namespace PC_Verwaltung
         /// [!Zukünftige Funktion!]
         /// </summary>
         public bool isAdmin { get; private set; }
-
-        /* Alter Constructor 
-        public User(string username, string password)
-        {
-            this.username = username;
-            this.password = sha256(password);
-        }
-        */
+      
         /// <summary>
         /// Erstellt ein neues User Objekt.
         /// </summary>
         /// <param name="username">Der Username des Users</param>
         /// <param name="password">Das Passwort (gehasht von der DB oder im Klartext von der Nutzereingabe)</param>
         /// <param name="hashPassword">true falls das PW gehast werden muss, false falls das PW bereits gehasht ist.</param>
+        /// <exception cref="ArgumentException">falls das passwort kein Hash ist aber als solches angegeben wurde.</exception>
         public User(string name, string surname, string username, string email, string password, Boolean hashPassword)
         {
-            if(hashPassword)
+            if (hashPassword)
             {
                 this.name = name;
                 this.surname = surname;
@@ -61,6 +55,10 @@ namespace PC_Verwaltung
             }
             else
             {
+                if (!Regex.IsMatch(password, "^[0-9a-fA-F]{64}$", RegexOptions.Compiled))
+                {
+                    throw new ArgumentException("Passwort ungültig, es wird ein gehastes Passwort erwartet.");
+                }
                 this.name = name;
                 this.surname = surname;
                 this.username = username;

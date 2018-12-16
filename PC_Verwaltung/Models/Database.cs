@@ -71,7 +71,6 @@ namespace PC_Verwaltung
                 {
                     connection.Open();
                 }
-
                 command.CommandText = "SELECT * FROM user WHERE username = '" + username + "' LIMIT 1;";
                 MySqlDataReader Reader;
                 command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
@@ -79,16 +78,30 @@ namespace PC_Verwaltung
 
                 if (Reader.HasRows)
                 {
-                    Reader.Read();
-                    string name, surname, password, email;
-                    name = Reader.GetValue(4) != DBNull.Value ? Reader.GetString(4): null;
-                    surname = Reader.GetValue(5) != DBNull.Value ? Reader.GetString(5) : null;
-                    password = Reader.GetValue(1) != DBNull.Value ? Reader.GetString(2) : null;
-                    email = Reader.GetValue(3) != DBNull.Value ? Reader.GetString(3) : null;
-                    username = Reader.GetValue(0) != DBNull.Value ? Reader.GetString(1) : null;
-                    User u = new User(name, surname, username, email, password, false);
-                    connection.Close();
-                    return u;
+                    try
+                    {
+                        Reader.Read();
+                        string name = "", surname = "", password, email = "";
+
+                        username = Reader.GetValue(Reader.GetOrdinal("username")) != DBNull.Value ? Reader.GetString(Reader.GetOrdinal("username")) : null;
+                        password = Reader.GetValue(Reader.GetOrdinal("password")) != DBNull.Value ? Reader.GetString(Reader.GetOrdinal("password")) : null;
+
+                        try { name = Reader.GetValue(Reader.GetOrdinal("name")) != DBNull.Value ? Reader.GetString(Reader.GetOrdinal("name")) : null; }
+                        catch (IndexOutOfRangeException) { }
+                        try { surname = Reader.GetValue(Reader.GetOrdinal("surname")) != DBNull.Value ? Reader.GetString(Reader.GetOrdinal("surname")) : null; }
+                        catch (IndexOutOfRangeException) { }
+                        try { email = Reader.GetValue(Reader.GetOrdinal("email")) != DBNull.Value ? Reader.GetString(Reader.GetOrdinal("email")) : null; }
+                        catch (IndexOutOfRangeException) { }
+
+                        User u = new User(name, surname, username, email, password, false);
+                        connection.Close();
+                        return u;
+                    }
+                    catch (Exception)
+                    {
+                        return null;
+                    }
+
                 }
                 else
                 {
@@ -96,7 +109,7 @@ namespace PC_Verwaltung
                     return null;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -109,40 +122,41 @@ namespace PC_Verwaltung
         /// <returns></returns>
         public bool createNewUser(User NewUser)
         {
-            try
+            //validierung
+            if (UserExist(NewUser.username))
             {
-                //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
-                if (connection.State == System.Data.ConnectionState.Closed)
-                {
-                    connection.Open();
-                }
-                //validierung
-                if (NewUser.username == null || NewUser.password == null)
-                {
-                    throw new ArgumentException("Username or Password is null!");
-                }
-
-                // Parsing zu SQL
-                string username, password, name, surname, email;
-                username = NewUser.username;
-                password = NewUser.password;
-                name = ParseToSQLValues(NewUser.name);
-                surname = ParseToSQLValues(NewUser.surname);
-                email = ParseToSQLValues(NewUser.email);
-
-                //erstellen des SQL statements
-                command.CommandText = "INSERT INTO user(username, password, name, surname, email)" +
-                "VALUES('" + username + "', '" + password + "', " + name + ", " + surname + ", " + email + ");";
-                command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
-                command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
-
-                connection.Close();
-                return true;
+                throw new ArgumentException("User existiert bereits!");
             }
-            catch (Exception ex)
+            if (String.IsNullOrEmpty(NewUser.username) || String.IsNullOrEmpty(NewUser.password))
             {
-                return false;
+                throw new ArgumentException("Username or Password is null!");
             }
+            if (!Regex.IsMatch(NewUser.password, "^[0-9a-fA-F]{64}$", RegexOptions.Compiled))
+            {
+                throw new ArgumentException("Passwort ungültig!");
+            }
+
+            // Parsing zu SQL
+            string username, password, name, surname, email;
+            username = NewUser.username;
+            password = NewUser.password;
+            name = ParseToSQLValues(NewUser.name);
+            surname = ParseToSQLValues(NewUser.surname);
+            email = ParseToSQLValues(NewUser.email);
+
+            //erstellen des SQL statements
+            command.CommandText = "INSERT INTO user(username, password, name, surname, email)" +
+            "VALUES('" + username + "', '" + password + "', " + name + ", " + surname + ", " + email + ");";
+            //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
+            int result = command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
+
+            connection.Close();
+            return result == 1;
         }
 
         /// <summary>
