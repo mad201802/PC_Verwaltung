@@ -11,6 +11,7 @@ namespace TestApp
 {
     class Program
     {
+        static Database db;
         #region README
         /* 
         * Diese Solution ist nur zum testen von (zukünftigen) Funktionen und ist bei der Bewertung weitgehend zu ignorieren!
@@ -19,8 +20,8 @@ namespace TestApp
 
         static void Main(string[] args)
         {
-
-            
+            //testPCDataInsert();
+            testHardware();
             //testSoftware();
 
 
@@ -48,7 +49,7 @@ namespace TestApp
         Console.WriteLine(fileName);
             Process.Start(dirName);
 
-            */
+            
             #region database testing
             
             //config
@@ -79,7 +80,10 @@ namespace TestApp
             }
             
             #endregion
+            */
     
+            //Console.ReadKey();
+            
             Console.ReadKey();
 
         }
@@ -96,15 +100,16 @@ namespace TestApp
             ComputerInformation CI = new ComputerInformation();
             CI.gatherInformation();
             Console.WriteLine("CPU:");
-            Console.WriteLine("CPU Anzahl: " + CI.CPUcount);
             Console.WriteLine("CPU Name: " + CI.CPUname);
             Console.WriteLine("CPU Kerne: " + CI.CPUcores);
             Console.WriteLine("CPU Threads: " + CI.CPUthreads);
+            Console.WriteLine("CPU Hyperthrading: " + (CI.CPUcores*2 == CI.CPUthreads ? "Yes":"No"));
             Console.WriteLine("CPU Architektur: " + CI.CPUarchitecture);
             Console.WriteLine("CPU Base Clock: " + CI.CPUbaseClock + " MHz");
             Console.WriteLine("CPU Max Clock: " + CI.CPUmaxSyncClock + " MHz");
             Console.WriteLine("CPU Bits: " + CI.CPUbits);
             Console.WriteLine("CPU Level 3 Cache: " + CI.CPUl3cache);
+            Console.WriteLine("CPU Serial Number: " + CI.CPUSerialNumber);
 
             Console.WriteLine("CPU Hersteller: " + CI.CPUmanufacture);
             Console.WriteLine("----\nGPU:");
@@ -115,21 +120,30 @@ namespace TestApp
             Console.WriteLine("----\nMobo:");
             Console.WriteLine("Mobo Hersteller: " + CI.motherboardManufacture);
             Console.WriteLine("Mobo Modell: " + CI.motherboardModel);
+            Console.WriteLine("Mobo Serial Number: " + CI.motherboardSerialNumber);
 
             Console.WriteLine("----\nRAM:");
             Console.WriteLine("RAM Größe in GB: " + CI.ramSizeInGB);
             Console.WriteLine("RAM Takt: " + CI.ramDimSpeeds[0] + " MHz");
+            Console.WriteLine("----\nNetzwerkadapter:");
+            foreach(var a in CI.networkInterfaces)
+            {
+                if (a.Name.Equals("WiFi") || a.Name.Equals("Ethernet"))
+                {
+                    Console.WriteLine(a.Name + " - " + CI.FormatMACAddress(a.GetPhysicalAddress().ToString()));
+                }
+            }
         }
 
         static void testDatabaseCreation()
         {
             //config
             string server = "127.0.0.1";
-            string database = "pc_verwaltung";
+            string database = "pc_verwaltung_test";
             string uid = "root";
             string password = "";
 
-            Database db = new Database(server, database, uid, password);
+            db = new Database(server, database, uid, password);
             switch(db.connect())
             {
                 case -1:
@@ -147,6 +161,39 @@ namespace TestApp
                     break;
             }
         }
+
+        static void testPCDataInsert()
+        {
+            testDatabaseCreation();
+            ComputerInformation ci = new ComputerInformation();
+            ci.gatherInformation();
+
+            if(db.doesCPUexist(ci.CPUname))
+            {
+                Console.WriteLine("cpu existiert");
+            }
+            else
+            {
+                Console.WriteLine("cpu existiert nicht");
+                Console.WriteLine("speichern?");
+                if(Console.ReadKey().Key ==  ConsoleKey.Y)
+                {
+                    db.storeCPU(ci);
+                    Console.WriteLine("done");
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
     }
 }
 

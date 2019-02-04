@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TestApp
 {
-    class ComputerInformation
+    public class ComputerInformation
     {
         public int CPUcount { get; private set; } = 0;
         public int CPUcores { get; private set; } = 0;
@@ -18,15 +19,22 @@ namespace TestApp
         public int CPUl3cache { get; private set; } = 0;
         public string CPUarchitecture { get; private set; } = "";
         public string CPUbits { get; private set; } = "";
+        public string CPUSerialNumber { get; private set; } = "";
+
         public string GPUname { get; private set; } = "";
         public string GPUmanufacture { get; private set; } = "";
         public int GPUram { get; private set; } = 0; // in GB
+
         public int ramSizeInGB { get; private set; } = 0;
         public double ramSizeInKB { get; private set; } = 0;
         public int[] ramDimSpeeds { get; private set; }
         public long[] ramDimSizes { get; private set; }
+
         public string motherboardManufacture { get; private set; } = "";
         public string motherboardModel { get; private set; } = "";
+        public string motherboardSerialNumber { get; private set; } = "";
+
+        public NetworkInterface[] networkInterfaces { get; private set; }
 
         public void gatherInformation()
         {
@@ -34,6 +42,7 @@ namespace TestApp
             GetGPUDetails();
             GetMemoryDetails();
             GetMotherboardDetails();
+            GetNetworkAdapter();
         }
 
         /// <summary> [!Zukünftige Funktion!]
@@ -61,12 +70,14 @@ namespace TestApp
                 CPUbits = item["AddressWidth"].ToString();
                 CPUarchitecture = GetArchitectureDetail(int.Parse(item["Architecture"].ToString()));
                 CPUmanufacture = item["Manufacturer"].ToString().Replace("Genuine","");
-                CPUname = item["Name"].ToString();
+                CPUname = item["Name"].ToString().Replace("(R)","").Replace("Intel ","").Replace("(TM)", "");
+                CPUname = CPUname.Substring(0, CPUname.IndexOf("CPU"));
                 CPUcores = Convert.ToInt32(item["NumberOfCores"]);
                 CPUthreads = Convert.ToInt32(item["NumberOfLogicalProcessors"]);
                 CPUl3cache = Convert.ToInt32(item["L3CacheSize"]);
                 CPUbaseClock = Convert.ToInt32(item["ExtClock"]);
-                CPUmaxSyncClock = Convert.ToInt32(item["MaxClockSpeed"]);            
+                CPUmaxSyncClock = Convert.ToInt32(item["MaxClockSpeed"]);
+                CPUSerialNumber = item["processorID"].ToString();
             }
         }
 
@@ -123,9 +134,34 @@ namespace TestApp
             {
                 motherboardManufacture = item["Manufacturer"].ToString();
                 motherboardModel = item["Product"].ToString();
+                motherboardSerialNumber = item["SerialNumber"].ToString();
+                
+                
             }
         }
+        /// <summary>
+        /// Gets Mac Addresses for all Active Adapters formatted in 00:00:00:00:00:00
+        /// </summary>
+        public void GetNetworkAdapter()
+        {
+            NetworkInterface[] netInterface =
+            (
+                from nic in NetworkInterface.GetAllNetworkInterfaces()
+                select nic
+            ).ToArray();
 
+            networkInterfaces = netInterface.Where(val => val.GetPhysicalAddress().ToString() != string.Empty).ToArray();
+        }
+
+        public string FormatMACAddress(string mac)
+        {
+            string c = "";
+            for (int i = 0; i < 12; i += 2)
+            {
+                c += mac.Substring(i, 2) + ":";
+            }
+            return c.Substring(0, c.LastIndexOf(":"));
+        }
 
         /// <summary> [!Zukünftige Funktion!]
         /// Convertiert den Statuscode der architektur in ein Lesbaren string.
