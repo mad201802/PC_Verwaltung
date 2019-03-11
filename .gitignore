@@ -7,6 +7,10 @@
 *.userosscache
 *.sln.docstates
 
+# non public
+set git Proxy.bat
+unset git Proxy.bat
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
