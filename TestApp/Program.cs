@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -21,11 +22,11 @@ namespace TestApp
         static void Main(string[] args)
         {
             //testPCDataInsert();
-            testHardware();
+            //testHardware();
             //testSoftware();
 
 
-            //testDatabaseCreation();
+            testDatabaseCreation();
 
             /*
             string dirName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PC_verwaltung");
@@ -138,10 +139,10 @@ namespace TestApp
         static void testDatabaseCreation()
         {
             //config
-            string server = "127.0.0.1";
-            string database = "pc_verwaltung_test";
-            string uid = "root";
-            string password = "";
+            string server = ConfigurationManager.AppSettings.Get("DatabaseServer");
+            string database = ConfigurationManager.AppSettings.Get("DBname");
+            string uid = ConfigurationManager.AppSettings.Get("DBUser");
+            string password = ConfigurationManager.AppSettings.Get("DBPassword");
 
             db = new Database(server, database, uid, password);
             switch(db.connect())
@@ -150,11 +151,7 @@ namespace TestApp
                     Console.WriteLine("Server antwortet nicht");
                     break;
                 case 0:
-                    Console.WriteLine("Datenbank nicht gefunden. \nSoll die Datenbank erstellt werden? y/n");
-                    if(Console.ReadKey().Key == ConsoleKey.Y)
-                    {
-                        db.CreateDatabase();
-                    }
+                    Console.WriteLine("DB not found");
                     break;
                 case 1:
                     Console.WriteLine("Connected");

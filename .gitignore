@@ -11,6 +11,9 @@
 set git Proxy.bat
 unset git Proxy.bat
 
+# private
+Secret.config
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
