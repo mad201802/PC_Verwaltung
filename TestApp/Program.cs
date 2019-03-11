@@ -26,7 +26,7 @@ namespace TestApp
             //testSoftware();
 
 
-            testDatabaseCreation();
+            testDatabaseConnection();
 
             /*
             string dirName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PC_verwaltung");
@@ -136,7 +136,7 @@ namespace TestApp
             }
         }
 
-        static void testDatabaseCreation()
+        static void testDatabaseConnection()
         {
             //config
             string server = ConfigurationManager.AppSettings.Get("DatabaseServer");
@@ -161,7 +161,7 @@ namespace TestApp
 
         static void testPCDataInsert()
         {
-            testDatabaseCreation();
+            testDatabaseConnection();
             ComputerInformation ci = new ComputerInformation();
             ci.gatherInformation();
 
