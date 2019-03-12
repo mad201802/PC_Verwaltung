@@ -45,25 +45,19 @@
                     <ListViewItem Name="dashboard" Height="60">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="ViewDashboard" Height="25" Width="25" Margin="10"/>
-                            <TextBlock Text="Dashboard" VerticalAlignment="Center" Margin="20 10"/>
+                            <TextBlock Text="Dashboard" VerticalAlignment="Center"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem Name="item1" Height="60">
+                    <ListViewItem Name="managed_computers" Height="60">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Settings" Height="25" Width="25" Margin="10"/>
-                            <TextBlock Text="Test Item 1" VerticalAlignment="Center" Margin="20 10"/>
+                            <materialDesign:PackIcon Kind="ComputerClassic" Height="25" Width="25" Margin="10"/>
+                            <TextBlock Text="Alle Computer" VerticalAlignment="Center"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem Name="item2" Height="60">
+                    <ListViewItem Name="my_computers" Height="60">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Gamepad" Height="25" Width="25" Margin="10"/>
-                            <TextBlock Text="Test Item 2" VerticalAlignment="Center" Margin="20 10"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem Name="item3" Height="60">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Dad" Height="25" Width="25" Margin="10"/>
-                            <TextBlock Text="Test Item 3" VerticalAlignment="Center" Margin="20 10"/>
+                            <materialDesign:PackIcon Kind="UserCircle" Height="25" Width="25" Margin="10"/>
+                            <TextBlock Text="Mein Computer" VerticalAlignment="Center"/>
                         </StackPanel>
                     </ListViewItem>
                 </ListView>

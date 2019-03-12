@@ -65,15 +65,11 @@ namespace PC_Verwaltung.Dashboard
                     MainGrid.Children.Clear();
                     //MainGrid.Children.Add(new DashboardUC());
                     break;
-                case "item1":
-                    current_topic.Text = "Example Item 1";
+                case "managed_computer":
+
                     break;
-                case "item2":
-                    current_topic.Text = "Example Items 2";
-                    break;
-                default:
-                    MainGrid.Children.Clear();
-                    //MainGrid.Children.Add(new DashboardUC());
+                case "my_computer":
+                    current_topic.Text = "Mein Computer";
                     break;
             }
         }
@@ -103,5 +99,8 @@ namespace PC_Verwaltung.Dashboard
         {
             this.WindowState = WindowState.Minimized;
         }
+
+
+
     }
 }

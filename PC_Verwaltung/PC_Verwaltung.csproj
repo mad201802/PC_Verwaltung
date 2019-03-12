@@ -78,6 +78,9 @@
     <Compile Include="Dashboard\MainDashboardWindow.xaml.cs">
       <DependentUpon>MainDashboardWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dashboard\UserControls\MyComputer.xaml.cs">
+      <DependentUpon>MyComputer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dashboard\UserControls\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
@@ -89,6 +92,10 @@
     <Compile Include="ValidationRules\NameValidationRule.cs" />
     <Compile Include="ValidationRules\UsernameValidationRule.cs" />
     <Page Include="Dashboard\MainDashboardWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dashboard\UserControls\MyComputer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
