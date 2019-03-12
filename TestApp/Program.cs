@@ -28,6 +28,8 @@ namespace TestApp
 
             testDatabaseConnection();
 
+            db.getCPUs();
+
             /*
             string dirName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PC_verwaltung");
             string fileName = Path.Combine(dirName, "config.txt");
@@ -82,9 +84,9 @@ namespace TestApp
             
             #endregion
             */
-    
+
             //Console.ReadKey();
-            
+
             Console.ReadKey();
 
         }
@@ -158,38 +160,6 @@ namespace TestApp
                     break;
             }
         }
-
-        static void testPCDataInsert()
-        {
-            testDatabaseConnection();
-            ComputerInformation ci = new ComputerInformation();
-            ci.gatherInformation();
-
-            if(db.doesCPUexist(ci.CPUname))
-            {
-                Console.WriteLine("cpu existiert");
-            }
-            else
-            {
-                Console.WriteLine("cpu existiert nicht");
-                Console.WriteLine("speichern?");
-                if(Console.ReadKey().Key ==  ConsoleKey.Y)
-                {
-                    db.storeCPU(ci);
-                    Console.WriteLine("done");
-                }
-            }
-        }
-
-
-
-
-
-
-
-
-
-
 
     }
 }
