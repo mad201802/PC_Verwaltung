@@ -29,6 +29,7 @@
             </materialDesign:PopupBox>
             <TextBlock Name="current_topic" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Dashboard</TextBlock>
         </Grid>
+        
         <Button Name="btn_close" VerticalAlignment="Top" HorizontalAlignment="Right" Width="46" Height="21" Click="Btn_close_Click">
             <materialDesign:PackIcon Kind="Close" Foreground="LightGray" FontSize="16"/>
         </Button>
@@ -63,11 +64,11 @@
                 </ListView>
             </StackPanel>
         </Grid>
-        <Button VerticalAlignment="Bottom" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Einstellungen" Margin="54,0,0,10">
+        <Button VerticalAlignment="Bottom" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Einstellungen" Margin="54,0,0,10" Click="Btn_settings_Click">
             <materialDesign:PackIcon Kind="Settings" Foreground="LightGray" Height="30" Width="30" />
         </Button>
         <materialDesign:PackIcon VerticalAlignment="Center" HorizontalAlignment="Center"  Foreground="LightGray" Kind="Computer" Height="60" Width="60" Margin="54,0,966,540" Grid.ColumnSpan="2"/>
         <TextBlock Text="PC Verwaltung" TextAlignment="Center" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="0,60,914,515" Width="166"/>
-        <Rectangle Name="MenuCursor" Stroke="SlateGray" Fill="LightSlateGray" Width="10" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,100,0,0"/>
+        <Rectangle Name="MenuCursor" Stroke="SteelBlue" Fill="CornflowerBlue" Width="10" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,100,0,0"/>
     </Grid>
 </Window>

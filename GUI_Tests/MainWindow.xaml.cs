@@ -1,4 +1,7 @@
-﻿using System;
+﻿using LiveCharts;
+using LiveCharts.Defaults;
+using LiveCharts.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,16 +16,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PC_Verwaltung.Dashboard.UserControls
+namespace GUI_Tests
 {
     /// <summary>
-    /// Interaktionslogik für MyComputer.xaml
+    /// Interaktionslogik für MainWindow.xaml
     /// </summary>
-    public partial class MyComputer : UserControl
+    public partial class MainWindow : Window
     {
-        public MyComputer()
+        public MainWindow()
         {
             InitializeComponent();
+
+            canvas.Children.Add(new UC_Test());
         }
     }
 }
