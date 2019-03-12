@@ -345,6 +345,74 @@ namespace TestApp
                 Console.WriteLine("failed");
             }
         }
+
+        public bool doesCPUexist(string CPUname)
+        {
+            try
+            {
+                //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+                command.CommandText = "SELECT * FROM cpus WHERE Name = '" + CPUname + "' LIMIT 1;";
+                MySqlDataReader Reader;
+                command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
+                Reader = command.ExecuteReader();
+
+                if (Reader.HasRows)
+                {
+                    connection.Close();
+                    return true;
+                }
+                else
+                {
+                    connection.Close();
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public void storeCPU(ComputerInformation ci)
+        {
+            //erstellen des SQL statements
+            command.CommandText = "INSERT INTO cpus(Hersteller, Name, Level_3_Cache, Architektur)" +
+            "VALUES('" + ci.CPUmanufacture + "', '" + ci.CPUname + "', " + ci.CPUl3cache/1024 + ", '" + ci.CPUarchitecture + "');";
+            //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
+            int result = command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
+
+            connection.Close();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         private void createConnection(string ConnectionString)
         {
             try

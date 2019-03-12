@@ -28,6 +28,8 @@ namespace ComputerInformation
         public string motherboardManufacture { get; private set; } = "";
         public string motherboardModel { get; private set; } = "";
 
+        public string motherboardSerialNumber { get; private set; } = "";
+
         public void gatherInformation()
         {
             GetCPUDetails();
@@ -123,6 +125,7 @@ namespace ComputerInformation
             {
                 motherboardManufacture = item["Manufacturer"].ToString();
                 motherboardModel = item["Product"].ToString();
+                motherboardSerialNumber = item["SerialNumber"].ToString();
             }
         }
 
