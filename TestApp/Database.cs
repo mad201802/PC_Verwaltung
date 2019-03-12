@@ -306,47 +306,7 @@ namespace TestApp
             }
         }
 
-        /// <summary>
-        /// Führt mehere SQL Befehle aus die sowohl die Datenbank als auch die User Tabelle mit dem Admin erstellen.
-        /// </summary>
-        public void CreateDatabase()
-        {
-            string script = Properties.Resources.pcverwaltung;
-
-            // split script on GO command
-            IEnumerable<string> commandStrings = Regex.Split(script, @"^\s*GO\s*$",
-                                     RegexOptions.Multiline | RegexOptions.IgnoreCase);
-
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                createConnection(ConnectionStringWithoutDatabase);
-            }
-            foreach (string commandString in commandStrings)
-            {
-                if (commandString.Trim() != "")
-                {
-                    command.CommandText = commandString;
-                    command.Prepare();
-                    command.ExecuteNonQuery();
-                }
-            }
-            Console.WriteLine("\nDatabase created!");
-            Console.WriteLine("Table User created!");
-            Console.WriteLine("Admin account created!");
-            connection.Close();
-            Console.WriteLine("trying to connect ...");
-            bool status = connect() == 1;
-            if (status)
-            {
-                Console.WriteLine("success!");
-            }
-            else
-            {
-                Console.WriteLine("failed");
-            }
-        }
-
-        public bool doesCPUexist(string CPUname)
+        public string[] getCPUs()
         {
             try
             {
@@ -355,41 +315,43 @@ namespace TestApp
                 {
                     connection.Open();
                 }
-                command.CommandText = "SELECT * FROM cpus WHERE Name = '" + CPUname + "' LIMIT 1;";
+                command.CommandText = "SELECT hersteller.NAME AS 'Hersteller', processor.NAME AS 'Name', ROUND(processor.StockClock / 1000, 1) AS 'Defaultclock in GHz', sockel.NAME AS 'Sockel' " +
+                "FROM processor " + 
+                "LEFT JOIN hersteller ON hersteller.ID = processor.Hersteller " +
+                "LEFT JOIN sockel ON sockel.ID = processor.Sockel ";
                 MySqlDataReader Reader;
                 command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
                 Reader = command.ExecuteReader();
 
                 if (Reader.HasRows)
                 {
-                    connection.Close();
-                    return true;
+                    try
+                    {
+                        while (Reader.Read())
+                        { 
+                            Console.WriteLine(Reader.GetValue(0).ToString() + " " + Reader.GetValue(1).ToString());
+                        }
+                        connection.Close();
+                        return null;
+                    }
+                    catch (Exception)
+                    {
+                        return null;
+                    }
+
                 }
                 else
                 {
                     connection.Close();
-                    return false;
+                    Console.WriteLine("Reader has no results");
+                    return null;
                 }
             }
             catch (Exception)
             {
-                return false;
+                throw;
+                return null;
             }
-        }
-        public void storeCPU(ComputerInformation ci)
-        {
-            //erstellen des SQL statements
-            command.CommandText = "INSERT INTO cpus(Hersteller, Name, Level_3_Cache, Architektur)" +
-            "VALUES('" + ci.CPUmanufacture + "', '" + ci.CPUname + "', " + ci.CPUl3cache/1024 + ", '" + ci.CPUarchitecture + "');";
-            //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection.Open();
-            }
-            command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
-            int result = command.ExecuteNonQuery(); // Führt die Abfrage an die Datenbank aus ohne das ein Result-Set zurück kommt.
-
-            connection.Close();
         }
 
 
