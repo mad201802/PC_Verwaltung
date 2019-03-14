@@ -58,5 +58,10 @@ namespace PC_Verwaltung.Dashboard.UserControls
             DataContext = this;
 
         }
+
+        private void Test_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

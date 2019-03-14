@@ -35,6 +35,9 @@ namespace PC_Verwaltung.Dashboard
             {
                 chip_currentuser.Content = "Admin";
             }
+
+            ScrollGrid.Children.Add(new UserControls.MonitoringUC());
+
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -61,16 +64,12 @@ namespace PC_Verwaltung.Dashboard
             {
                 case "dashboard":
                     current_topic.Text = "Dashboard";
-                    UserControls.MonitoringUC monitoring = new UserControls.MonitoringUC();
-                    MainGrid.Children.Add(monitoring);
-                    Console.WriteLine("Test");
-                    break;
-                case "managed_computer":
-                  
+                    ScrollGrid.Children.Clear();
+                    ScrollGrid.Children.Add(new UserControls.MonitoringUC());
                     break;
                 case "my_computer":
                     current_topic.Text = "Mein Computer";
-                    
+                    ScrollGrid.Children.Clear();
                     break;
             }
         }
@@ -103,8 +102,8 @@ namespace PC_Verwaltung.Dashboard
 
         private void Btn_settings_Click(object sender, RoutedEventArgs e)
         {
-            UserControls.Settings s = new UserControls.Settings();
-            MainGrid.Children.Add(s);
+            ScrollGrid.Children.Clear();
+            ScrollGrid.Children.Add(new UserControls.Settings());
         }
 
     }

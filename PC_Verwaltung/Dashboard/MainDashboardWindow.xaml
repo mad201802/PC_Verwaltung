@@ -9,7 +9,13 @@
         MouseDown="Window_MouseDown"
         Icon="favicon_dashboard.ico">
     <Grid Background="#FFDEDEDE">
-        <Grid Name="MainGrid" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="540" Width="914"/>
+        <Grid Name="MainGrid" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="540" Width="914">
+            <ScrollViewer>
+                <Grid Name="ScrollGrid">
+
+                </Grid>
+            </ScrollViewer>
+        </Grid>
         <Grid Height="60" VerticalAlignment="Top" Background="#FF5C99D6" Grid.ColumnSpan="2">
             <Grid.Effect>
                 <DropShadowEffect BlurRadius="1" ShadowDepth="1" Color="#FFACACAC"/>
@@ -49,16 +55,16 @@
                             <TextBlock Text="Dashboard" VerticalAlignment="Center"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem Name="managed_computers" Height="60">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="ComputerClassic" Height="25" Width="25" Margin="10"/>
-                            <TextBlock Text="Alle Computer" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </ListViewItem>
                     <ListViewItem Name="my_computers" Height="60">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="UserCircle" Height="25" Width="25" Margin="10"/>
                             <TextBlock Text="Mein Computer" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Name="add_computer" Height="60">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ComputerClassic" Height="25" Width="25" Margin="10"/>
+                            <TextBlock Text="Computer hinzuf." VerticalAlignment="Center"/>
                         </StackPanel>
                     </ListViewItem>
                 </ListView>
