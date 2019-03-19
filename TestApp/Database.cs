@@ -306,8 +306,9 @@ namespace TestApp
             }
         }
 
-        public string[] getCPUs()
+        public string[][] getCPUs()
         {
+            List<string[]> CPUs = new List<string[]>();
             try
             {
                 //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
@@ -315,7 +316,7 @@ namespace TestApp
                 {
                     connection.Open();
                 }
-                command.CommandText = "SELECT hersteller.NAME AS 'Hersteller', processor.NAME AS 'Name', ROUND(processor.StockClock / 1000, 1) AS 'Defaultclock in GHz', sockel.NAME AS 'Sockel' " +
+                command.CommandText = "SELECT processor.ID, hersteller.NAME AS 'Hersteller', processor.NAME AS 'Name', ROUND(processor.StockClock / 1000, 1) AS 'Defaultclock in GHz', sockel.NAME AS 'Sockel' " +
                 "FROM processor " + 
                 "LEFT JOIN hersteller ON hersteller.ID = processor.Hersteller " +
                 "LEFT JOIN sockel ON sockel.ID = processor.Sockel ";
@@ -329,16 +330,16 @@ namespace TestApp
                     {
                         while (Reader.Read())
                         { 
-                            Console.WriteLine(Reader.GetValue(0).ToString() + " " + Reader.GetValue(1).ToString());
+                            CPUs.Add(new string[] { Reader.GetValue(0).ToString(), Reader.GetValue(1).ToString() + " " + Reader.GetValue(2).ToString() });
                         }
                         connection.Close();
-                        return null;
+                        string[][] result = CPUs.ToArray();
+                        return result;
                     }
                     catch (Exception)
                     {
                         return null;
                     }
-
                 }
                 else
                 {
@@ -349,7 +350,6 @@ namespace TestApp
             }
             catch (Exception)
             {
-                throw;
                 return null;
             }
         }
