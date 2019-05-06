@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="ComputerInformation.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="Models\HardwareComponents\CPU.cs" />
     <Compile Include="Models\WindowsUser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

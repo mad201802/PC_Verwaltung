@@ -354,7 +354,53 @@ namespace TestApp
             }
         }
 
+        public string[][] getGPUs()
+        {
+            List<string[]> CPUs = new List<string[]>();
+            try
+            {
+                //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+                command.CommandText = "SELECT processor.ID, hersteller.NAME AS 'Hersteller', processor.NAME AS 'Name', ROUND(processor.StockClock / 1000, 1) AS 'Defaultclock in GHz', sockel.NAME AS 'Sockel' " +
+                "FROM processor " +
+                "LEFT JOIN hersteller ON hersteller.ID = processor.Hersteller " +
+                "LEFT JOIN sockel ON sockel.ID = processor.Sockel ";
+                MySqlDataReader Reader;
+                command.Prepare(); // Prüft auf SQL-Syntaxfehler oder Injektions
+                Reader = command.ExecuteReader();
 
+                if (Reader.HasRows)
+                {
+                    try
+                    {
+                        while (Reader.Read())
+                        {
+                            CPUs.Add(new string[] { Reader.GetValue(0).ToString(), Reader.GetValue(1).ToString() + " " + Reader.GetValue(2).ToString() + " @" + Reader.GetValue(3).ToString() + "GHz" });
+                        }
+                        connection.Close();
+                        string[][] result = CPUs.ToArray();
+                        return result;
+                    }
+                    catch (Exception)
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    connection.Close();
+                    Console.WriteLine("Reader has no results");
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
 
 

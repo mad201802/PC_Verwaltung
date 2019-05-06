@@ -28,7 +28,10 @@ namespace TestApp
 
             testDatabaseConnection();
 
-            db.getCPUs();
+            foreach (string[] s in db.getCPUs())
+            {
+                Console.WriteLine(s[0] + ": " + s[1]);
+            }
 
             /*
             string dirName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PC_verwaltung");
