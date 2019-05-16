@@ -10,7 +10,7 @@ namespace TestApp.Models.HardwareComponents
     {
         public enum Flash { SLC, MLC, TLC, QLC }
 
-        public enum ControllerMode { IDE, AHCI, NVME }
+        public enum ControllerMode { IDE, AHCI, NVME, RAID }
 
     }
 }

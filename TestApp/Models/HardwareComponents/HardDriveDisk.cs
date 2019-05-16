@@ -8,5 +8,6 @@ namespace TestApp.Models.HardwareComponents
 {
     class HardDriveDisk:Drive
     {
+        public int RPM { get; set; }
     }
 }

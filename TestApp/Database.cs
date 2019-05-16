@@ -41,7 +41,7 @@ namespace TestApp
                     return 1;
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return 0;
                 }
@@ -300,7 +300,7 @@ namespace TestApp
                 using (var client = new TcpClient(hostUri, portNumber))
                     return true;
             }
-            catch (SocketException ex)
+            catch (SocketException)
             {
                 return false;
             }
@@ -429,7 +429,7 @@ namespace TestApp
                 command = connection.CreateCommand();
                 connection.Open();
             }
-            catch (MySqlException msqlex)
+            catch (MySqlException)
             {
                 throw;
             }
