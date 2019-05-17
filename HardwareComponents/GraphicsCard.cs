@@ -10,5 +10,9 @@ namespace HardwareComponents
     {
         public int VRAM { get; set; }
         public string Chip { get; set; }
+        /// <summary>
+        /// PCIe_x16 Gen3, PCIe_x8 Gen3
+        /// </summary>
+        public string Interface { get; set; }
     }
 }
