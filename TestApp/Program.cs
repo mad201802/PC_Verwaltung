@@ -27,10 +27,10 @@ namespace TestApp
 
 
             testDatabaseConnection();
-
-            foreach (string[] s in db.getCPUs())
+            UInt32 index = 0;
+            foreach (string s in db.getCPUs())
             {
-                Console.WriteLine(s[0] + ": " + s[1]);
+                Console.WriteLine($"{index++}: {s}");
             }
 
             /*

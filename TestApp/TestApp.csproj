@@ -78,14 +78,6 @@
   <ItemGroup>
     <Compile Include="ComputerInformation.cs" />
     <Compile Include="Database.cs" />
-    <Compile Include="Models\HardwareComponents\CPU.cs" />
-    <Compile Include="Models\HardwareComponents\Drive.cs" />
-    <Compile Include="Models\HardwareComponents\GraphicsCard.cs" />
-    <Compile Include="Models\HardwareComponents\HardDriveDisk.cs" />
-    <Compile Include="Models\HardwareComponents\HWComponent.cs" />
-    <Compile Include="Models\HardwareComponents\RAM.cs" />
-    <Compile Include="Models\HardwareComponents\SolidStateDrive.cs" />
-    <Compile Include="Models\HardwareComponents\Speicher.cs" />
     <Compile Include="Models\WindowsUser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -133,6 +125,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\HardwareComponents\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

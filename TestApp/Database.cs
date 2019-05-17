@@ -306,9 +306,9 @@ namespace TestApp
             }
         }
 
-        public string[][] getCPUs()
+        public string[] getCPUs()
         {
-            List<string[]> CPUs = new List<string[]>();
+            List<string> CPUs = new List<string>();
             try
             {
                 //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
@@ -330,10 +330,10 @@ namespace TestApp
                     {
                         while (Reader.Read())
                         { 
-                            CPUs.Add(new string[] { Reader.GetValue(0).ToString(), Reader.GetValue(1).ToString() + " " + Reader.GetValue(2).ToString() });
+                            CPUs.Add( Reader.GetValue(1).ToString() + " " + Reader.GetValue(2).ToString() );
                         }
                         connection.Close();
-                        string[][] result = CPUs.ToArray();
+                        string[] result = CPUs.ToArray();
                         return result;
                     }
                     catch (Exception)
@@ -354,9 +354,9 @@ namespace TestApp
             }
         }
 
-        public string[][] getGPUs()
+        public string[] getGPUs()
         {
-            List<string[]> CPUs = new List<string[]>();
+            List<string> CPUs = new List<string>();
             try
             {
                 //Überprüft ob die Verbindung zur DB offen ist, falls nein, öffnet diese.
@@ -378,10 +378,10 @@ namespace TestApp
                     {
                         while (Reader.Read())
                         {
-                            CPUs.Add(new string[] { Reader.GetValue(0).ToString(), Reader.GetValue(1).ToString() + " " + Reader.GetValue(2).ToString() + " @" + Reader.GetValue(3).ToString() + "GHz" });
+                            CPUs.Add(Reader.GetValue(1).ToString() + " " + Reader.GetValue(2).ToString() + " @" + Reader.GetValue(3).ToString() + "GHz");
                         }
                         connection.Close();
-                        string[][] result = CPUs.ToArray();
+                        string[] result = CPUs.ToArray();
                         return result;
                     }
                     catch (Exception)
