@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HardwareComponents
 {
-    class Drive:Speicher
+    class Drive:Memory
     {
         public enum Interface { IDE, SATA_2, SATA_3, M_2, SAS }
         /// <summary>

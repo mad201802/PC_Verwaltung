@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HardwareComponents
 {
-    class RAM : Speicher
+    class RAM : Memory
     {
         public string Type { get; set; }
 
