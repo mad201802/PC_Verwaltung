@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -25,6 +26,15 @@ namespace PC_Verwaltung
         public Database(string server, string database, string uid, string password)
         {
             this.server = server;
+            ConnectionStringWithoutDatabase = "SERVER=" + server + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
+            ConnectionString = "SERVER=" + server + ";" + "DATABASE=" + database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
+        }
+        public Database()
+        {
+            server = ConfigurationManager.AppSettings.Get("DatabaseServer");
+            string database = ConfigurationManager.AppSettings.Get("DBname");
+            string uid = ConfigurationManager.AppSettings.Get("DBUser");
+            string password = ConfigurationManager.AppSettings.Get("DBPassword");
             ConnectionStringWithoutDatabase = "SERVER=" + server + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
             ConnectionString = "SERVER=" + server + ";" + "DATABASE=" + database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
         }

@@ -24,7 +24,8 @@ namespace PC_Verwaltung
     public partial class Login : Window
     {
 
-        public static Database database = new Database("localhost", "pc_verwaltung", "root", "");
+        //public static Database database = new Database("localhost", "pc_verwaltung", "root", "");
+        public static Database database = new Database();
         public static User currentUser;
 
         public Login()
